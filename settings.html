@@ -252,8 +252,12 @@
         const notificationSwitch = document.getElementById('notificationToggle');
 
         if (notificationSwitch) {
-            // পেজ রিলোড হলে সুইচ নিজে নিজে অন হবে না, ইউজার নিজের মতো কন্ট্রোল করতে পারবে
-            notificationSwitch.checked = false;
+           // LocalStorage চেক করে বাটন অন বা অফ রাখা হবে
+if (localStorage.getItem('notificationStatus') === 'on') {
+    notificationSwitch.checked = true;
+} else {
+    notificationSwitch.checked = false;
+}
 
             notificationSwitch.addEventListener('change', async function() {
                 if (this.checked) {
@@ -267,17 +271,21 @@
                            // const token = await getToken(messaging, { vapidKey: 'BG4gAb5-NIUr0BKlb_a6nJ-Nuopnja4mUBp1U1nuEWY6mJdi7R2jcS6QRVtKr3zTFh4mXRjys4w-x9aY_48qPGE' });
                             console.log('FCM Token:', token);
                             alert('Push notifications enabled successfully!');
+                            localStorage.setItem('notificationStatus', 'on');
                         } else {
                             alert('Permission denied!');
                             this.checked = false;
+                            localStorage.setItem('notificationStatus', 'off');
                         }
                     } catch (error) {
                         console.error('Error enabling notifications:', error);
                         this.checked = false;
+                        localStorage.setItem('notificationStatus', 'off');
                     }
                 } else {
                     alert('Notifications disabled.');
                     this.checked = false;
+                    localStorage.setItem('notificationStatus', 'off');
                 }
             });
         }
