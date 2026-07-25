@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ED Tech - Dynamic Library</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background: #38bdf8;
+            color: #0f172a;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        /* সাইড মেনুবার */
+        .sidebar {
+            width: 280px;
+            background: rgba(15, 23, 42, 0.95);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 20px;
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            transition: 0.3s ease-in-out;
+        }
+        .sidebar h2 {
+            font-size: 20px;
+            color: #38bdf8;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .sidebar h4 {
+            font-size: 13px;
+            color: #94a3b8;
+            margin: 15px 0 10px 10px;
+            text-transform: uppercase;
+        }
+
+        /* ডাইনামিক ড্রপডাউন চ্যাপ্টার লিস্ট */
+        .subject-group {
+            margin-bottom: 10px;
+        }
+        .subject-title {
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 14px;
+            color: #e2e8f0;
+            background: rgba(255, 255, 255, 0.03);
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .subject-title:hover {
+            background: rgba(56, 189, 248, 0.15);
+            color: #38bdf8;
+        }
+        .chapter-list {
+            list-style: none;
+            padding-left: 15px;
+            margin-top: 5px;
+            display: none;
+        }
+        .chapter-list.open {
+            display: block;
+        }
+        .chapter-list li {
+            padding: 8px 12px;
+            margin: 3px 0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            color: #94a3b8;
+            transition: 0.3s;
+        }
+        .chapter-list li:hover {
+            background: rgba(56, 189, 248, 0.1);
+            color: #38bdf8;
+        }
+
+        /* পার্সোনাল নোটস বক্স */
+        .notes-section {
+            margin-top: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px;
+        }
+        .notes-section h4 {
+            font-size: 12px;
+            color: #38bdf8;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        .notes-textarea {
+            width: 100%;
+            height: 80px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            color: #fff;
+            padding: 8px;
+            font-size: 12px;
+            resize: none;
+            outline: none;
+        }
+        .save-note-btn {
+            margin-top: 6px;
+            background: #38bdf8;
+            color: #0f172a;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 11px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .save-note-btn:hover {
+            background: #0ea5e9;
+        }
+
+        /* মেইন কন্টেন্ট এরিয়া - ডেস্কটপে পুরো জায়গা নেওয়ার জন্য */
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 30px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+            flex-shrink: 0;
+        }
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+        }
+        .pdf-container {
+            position: relative;
+            width: 100%;
+            flex: 1;
+            overflow: hidden;
+            border-radius: 10px;
+            background: #fff;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* সিকিউরিটি ওয়াটারমার্ক - অপাসিটি বাড়িয়ে দৃশ্যমান করা হলো */
+      .watermark-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .watermark-text {
+            position: absolute;
+            color: rgba(250, 204, 21, 0.22); /* ইয়েলো হাইলাইটার কালার ও স্পষ্ট দৃশ্যমানতা */
+            font-size: 24px;
+            font-weight: 700;
+            transform: rotate(-30deg);
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .sidebar { left: -280px; }
+            .sidebar.active { left: 0; }
+            .main-content { margin-left: 0; padding: 15px; padding-top: 60px; height: auto; min-height: 100vh; }
+            .content-card { min-height: 500px; }
+        }
+        /* কন্টেন্ট কার্ড ও পিডিএফের বক্সটি ফুল স্ক্রিন করার জন্য */
+.pdf-container {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #fff;
+}
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+/* পপ-আউট বাটন বা ডাউনলোড ক্লিক ঠেকানোর জন্য ইনভিসিবল প্রোটেকশন ওভারলে */
+.iframe-shield {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 70px; /* ঠিক ডানদিকের কোণার যেটুকিজুড়ে পপ-আউট বাটন থাকে */
+    height: 70px;
+    z-index: 10;
+    background: transparent;
+    cursor: not-allowed;
+}
+    </style>
+</head>
+<body>
+
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+    <div class="watermark-overlay" id="watermarkContainer"></div>
+
+    <!-- ডাইনামিক সাইডবার -->
+    <div class="sidebar" id="sidebar">
+        <h2>📚 ED Tech Library</h2>
+        
+        <div id="dynamicMenuContainer">
+            <p style="color: #94a3b8; font-size: 12px; text-align: center; margin-top: 20px;">Loading courses...</p>
+        </div>
+
+        <!-- পার্সোনাল নোটস বক্স -->
+        <div class="notes-section">
+            <h4>📌 My Personal Notes</h4>
+            <textarea class="notes-textarea" id="userPersonalNote" placeholder="Write where you left off..."></textarea>
+            <button class="save-note-btn" id="saveNoteBtn">Save Notes</button>
+        </div>
+    </div>
+
+    <!-- মেইন কন্টেন্ট এরিয়া -->
+    <div class="main-content">
+        <header>
+            <h1 id="contentTitle" style="font-size: 18px; color: #38bdf8;">Select a topic from the menu</h1>
+            <button class="back-btn" onclick="window.location.href='dashboard.html'">🏠 Dashboard</button>
+        </header>
+
+        <div class="content-card" id="displayArea">
+            <p style="color: #94a3b8; text-align: center; margin-top: 150px;">Please select any subject chapter from the left menu.</p>
+        </div>
+    </div>
+
+    <!-- ফায়ারবেস ডেটাবেজ ও ডাইনামিক রেন্ডারিং স্ক্রিপ্ট -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDDy7xLO6WhCXFt8bPAU9AYFYtVoVw8t9k",
+            authDomain: "ed-tech-c6b5a.firebaseapp.com",
+            projectId: "ed-tech-c6b5a",
+            storageBucket: "ed-tech-c6b5a.firebasestorage.app",
+            messagingSenderId: "176482715149",
+            appId: "1:176482715149:web:8fce7c5fe4fcbe4edff744"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                createDynamicWatermark(user.email || user.displayName || "Protected Student");
+                
+                const userDocRef = doc(db, "users", user.uid);
+                const userDoc = await getDoc(userDocRef);
+                if (userDoc.exists() && userDoc.data().personalNote) {
+                    document.getElementById('userPersonalNote').value = userDoc.data().personalNote;
+                }
+
+                fetchDynamicCourses();
+            } else {
+                window.location.href = "index.html";
+            }
+        });
+
+        async function fetchDynamicCourses() {
+            const menuContainer = document.getElementById('dynamicMenuContainer');
+            menuContainer.innerHTML = "";
+
+            try {
+                const querySnapshot = await getDocs(collection(db, "courses"));
+                
+                if (querySnapshot.empty) {
+                    menuContainer.innerHTML = `<p style="color: #94a3b8; font-size: 12px; text-align: center; margin-top: 20px;">No courses available yet.</p>`;
+                    return;
+                }
+
+                let htmlContent = "";
+                querySnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    if (data.subjectName && data.chapters) {
+                        const uniqueId = docSnap.id;
+                        htmlContent += `
+                            <div class="subject-group">
+                                <div class="subject-title" onclick="toggleChapters('${uniqueId}')">
+                                    📁 ${data.subjectName} <span>▼</span>
+                                </div>
+                                <ul class="chapter-list" id="${uniqueId}">
+                        `;
+                        
+                        data.chapters.forEach((ch) => {
+                            htmlContent += `<li onclick="loadContent('${ch.title}', '${ch.pdfUrl}')">📄 ${ch.title}</li>`;
+                        });
+
+                        htmlContent += `</ul></div>`;
+                    }
+                });
+
+                menuContainer.innerHTML = htmlContent;
+
+            } catch (error) {
+                console.error("Error fetching courses:", error);
+                menuContainer.innerHTML = `<p style="color: #f87171; font-size: 12px; text-align: center;">Failed to load courses.</p>`;
+            }
+        }
+
+        document.getElementById('saveNoteBtn').addEventListener('click', async () => {
+            if (!currentUser) return;
+            const noteText = document.getElementById('userPersonalNote').value;
+            try {
+                await setDoc(doc(db, "users", currentUser.uid), { personalNote: noteText }, { merge: true });
+                alert("Note saved successfully!");
+            } catch (error) {
+                alert("Failed to save note.");
+            }
+        });
+
+        function createDynamicWatermark(userText) {
+            const container = document.getElementById('watermarkContainer');
+            container.innerHTML = "";
+            for (let i = 0; i < 6; i++) {
+                const div = document.createElement('div');
+                div.className = 'watermark-text';
+                div.innerText = `${userText} • ED Tech Protected`;
+                div.style.top = `${i * 18}%`;
+                div.style.left = `${(i % 2) * 20}%`;
+                container.appendChild(div);
+            }
+        }
+    </script>
+
+    <script>
+        function toggleChapters(id) {
+            const list = document.getElementById(id);
+            if(list) list.classList.toggle('open');
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        function loadContent(title, pdfUrl) {
+            document.getElementById('contentTitle').innerText = title;
+            
+            let cleanUrl = pdfUrl;
+            if (cleanUrl.includes('drive.google.com')) {
+                if (!cleanUrl.includes('/preview')) {
+                    cleanUrl = cleanUrl.replace(/\/view.*$/, '/preview');
+                }
+            }
+
+            document.getElementById('displayArea').innerHTML = `
+                <p style="margin-bottom: 8px; color: #38bdf8; font-weight: 500; font-size: 14px;">📖 Reading: ${title}</p>
+                <div class="pdf-container">
+                    <iframe src="${cleanUrl}#toolbar=0&navpanes=0&scrollbar=0" type="application/pdf"></iframe>
+                </div>
+            `;
+            if(window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('active');
+            }
+        }
+
+        // 🔒 ফুল পাইরেসি ও কপি প্রোটেকশন
+        document.addEventListener('contextmenu', e => {
+            e.preventDefault();
+            alert('Right-click is disabled to protect study materials!');
+        });
+
+        document.addEventListener('keydown', e => {
+            if (
+                e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || 
+                (e.ctrlKey && (e.key === 'u' || e.key === 'c' || e.key === 's' || e.key === 'p' || e.key === 'x'))
+            ) {
+                e.preventDefault();
+                alert('This action is strictly prohibited on protected course notes!');
+            }
+        });
+
+        document.addEventListener('selectstart', e => {
+            e.preventDefault();
+        });
+
+        document.addEventListener('dragstart', e => {
+            e.preventDefault();
+        });
+
+        
+
+
+
+
+
+
+        function loadContent(title, pdfUrl) {
+            document.getElementById('contentTitle').innerText = title;
+            
+            let cleanUrl = pdfUrl;
+            if (cleanUrl.includes('drive.google.com')) {
+                if (!cleanUrl.includes('/preview')) {
+                    cleanUrl = cleanUrl.replace(/\/view.*$/, '/preview');
+                }
+            }
+
+            document.getElementById('displayArea').innerHTML = `
+                <p style="margin-bottom: 8px; color: #38bdf8; font-weight: 500; font-size: 14px;">📖 Reading: ${title}</p>
+                <div class="pdf-container">
+                    <!-- পপ-আউট বাটন ব্লকার শিল্ড -->
+                    <div class="iframe-shield" onclick="alert('Action blocked to protect course content!');"></div>
+                    <iframe src="${cleanUrl}#toolbar=0&navpanes=0&scrollbar=0" type="application/pdf"></iframe>
+                </div>
+            `;
+            if(window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>

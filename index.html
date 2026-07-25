@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ED Tech - Login</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for Modern Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="login-wrapper">
+        <!-- Glassmorphism Card -->
+        <div class="glass-card">
+            <div class="brand-header">
+                <!-- 🚀 লোগো ডবল সাইজ করা হলো এবং ED Tech লেখা সরানো হলো 🚀 -->
+              <img src="logo.png" alt="ED Tech Logo" draggable="false" style="width: 200px; height: auto; margin-bottom: 10px; user-select: none; pointer-events: none;">
+                
+                <p class="tagline">Powered by EduCraft</p>
+            </div>
+
+            <div class="login-content">
+                <p class="welcome-text">Welcome back! Please login to access your notes.</p>
+                
+                <!-- Google Login Button -->
+                <button id="googleLoginBtn" class="btn google-btn">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" alt="Google Logo" class="google-icon">
+                    Continue with Google
+                </button>
+
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+
+             <!-- Phone OTP Login -->
+                <div class="phone-login-section">
+                    
+                    <!-- Phone Number Input & Send Button -->
+                    <div id="phoneInputContainer">
+                        <input type="tel" id="phoneNumber" class="input-field" placeholder="Enter Phone Number (+91...)">
+                        <!-- ফায়ারবেস reCAPTCHA এখানে দেখাবে -->
+                        <div id="recaptcha-container" style="margin: 15px 0;"></div>
+                        <button id="sendOtpBtn" class="btn otp-btn">Send OTP</button>
+                    </div>
+
+                    <!-- OTP Code Input & Verify Button (প্রথমে লুকানো থাকবে) -->
+                    <div id="otpInputContainer" style="display: none; margin-top: 10px;">
+                        <input type="text" id="otpCode" class="input-field" placeholder="Enter 6-digit OTP">
+                        <button id="verifyOtpBtn" class="btn otp-btn" style="margin-top: 10px; background-color: #28a745;">Verify Login</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>

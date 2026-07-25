@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ED Tech - Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Razorpay Checkout Script (পেমেন্ট পপআপ আনার জন্য) -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+   <!-- Top Navigation Bar Update -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <div class="menu-btn" id="menuBtn">☰</div>
+            <div class="logo" style="display: flex; align-items: center;">
+                <!-- 🚀 ED Tech লেখা সরিয়ে শুধু বড় লোগো বসানো হলো 🚀 -->
+               <img src="logo1.png" alt="ED Tech Logo" draggable="false" style="height: 55px; width: auto; user-select: none; pointer-events: none;">
+            </div>
+        </div>
+        <div class="user-profile">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile" class="avatar" id="profilePic" referrerpolicy="no-referrer" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'">
+            <span id="userName" style="margin-right: 15px; font-weight: 600; font-size: 14px;">Loading...</span>
+            <button class="logout-btn" id="logoutBtn">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Sidebar Menu -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>ED Tech Menu</h3>
+            <span class="close-btn" id="closeBtn">✖</span>
+        </div>
+        <ul class="sidebar-links">
+            <li><a href="profile.html">👤 Profile</a></li>
+            <li><a href="tasks1.html">📢 MAKAUT Updates</a></li>
+            <li><a href="settings.html">⚙️ Settings</a></li>
+            <li><a href="about.html">ℹ️ About Us</a></li>
+            <li><a href="support.html">📞 Support</a></li>
+            <li><a href="privacy.html">📄 Privacy Policy</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Dashboard Area -->
+    <main class="dashboard-container">
+        <header class="welcome-section">
+            <h1>Welcome to your Library! 📚</h1>
+            <p>Select your course or order custom assignments below.</p>
+        </header>
+
+        <!-- Course & Assignment Cards Grid -->
+        <div class="cards-grid">
+            
+            <!-- Card 1 -->
+            <div class="course-card">
+                <div class="card-icon">📘</div>
+                <h3>BCA First Year Notes</h3>
+                <p>Complete notes, previous year questions, and solutions.</p>
+                <div class="card-footer">
+                    <span class="price">₹50 / Month</span>
+                    <!-- আইডি btn-monthly যোগ করা হলো -->
+                    <button class="action-btn" id="btn-monthly">Subscribe</button>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="course-card">
+                <div class="card-icon">🎥</div>
+                <h3>Full Course & Videos</h3>
+                <p>In-depth video lectures for all major subjects.</p>
+                <div class="card-footer">
+                    <span class="price">₹200 / Full Course</span>
+                    <!-- আইডি btn-fullcourse যোগ করা হলো -->
+                    <button class="action-btn lock-btn" id="btn-fullcourse">🔒 Unlock</button>
+                </div>
+            </div>
+
+            <!-- 🚀 Web & C Programming Mastery Section for Dashboard -->
+            <div class="playground-card">
+    <div>
+        <!-- Tech Icon to match other cards -->
+        <div style="font-size: 28px; margin-bottom: 12px; color: #0284c7;">💻</div>
+        
+        <span style="color: #0284c7; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Interactive Playground</span>
+        
+        <h3 style="font-size: 19px; color: #1e293b; margin-top: 6px; margin-bottom: 8px; font-weight: 700; line-height: 1.3;">Web Dev & C Program</h3>
+        
+        <p style="font-size: 13px; color: #64748b; margin: 0; line-height: 1.6;">Learn HTML, CSS, JavaScript, and C Programming with live code execution and secure notes.</p>
+    </div>
+
+    <!-- Glowing Neon Button -->
+    <div class="neon-wrapper" onclick="window.location.href='web-dev.html'">
+        <button class="neon-button">
+            🚀 Start Coding Now
+        </button>
+    </div>
+</div>
+
+            <!-- Card 3 -->
+            <div class="course-card">
+                <div class="card-icon">📝</div>
+                <h3>Order Assignments</h3>
+                <p>Get custom project files and assignments made for you.</p>
+                <div class="card-footer">
+                    <span class="price">Custom Price</span>
+                    <button class="action-btn order-btn" onclick="window.location.href='tasks.html'">Order Now</button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+  <!-- Mobile Bottom Navigation -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="window.location.href='dashboard.html'">🏠<span>Home</span></div>
+        <div class="nav-item" onclick="window.location.href='courses.html'">📚<span>Courses</span></div>
+        <div class="nav-item" onclick="window.location.href='tasks1.html'">📝<span>Updates</span></div>
+        <div class="nav-item" onclick="window.location.href='profile.html'">👤<span>Profile</span></div>
+    </div>
+
+    <!-- Sidebar Script -->
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const sidebar = document.getElementById('sidebar');
+
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.add('active');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+        });
+    </script>
+
+    <!-- Firebase Script for Dashboard User Data, Payment & Logout -->
+    <script type="module">
+        // ফায়ারবেসের সঠিক ভার্সন (10.12.2) ব্যবহার করা হলো যাতে Firestore ঠিকমতো কাজ করে
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDDy7xLO6WhCXFt8bPAU9AYFYtVoVw8t9k",
+            authDomain: "ed-tech-c6b5a.firebaseapp.com",
+            projectId: "ed-tech-c6b5a",
+            storageBucket: "ed-tech-c6b5a.firebasestorage.app",
+            messagingSenderId: "176482715149",
+            appId: "1:176482715149:web:8fce7c5fe4fcbe4edff744"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app); // Firestore ইনিশিয়ালাইজ করা হলো
+
+        let currentUser = null;
+
+        // ইউজারের পেমেন্ট স্ট্যাটাস চেক করার ফাংশন
+        async function checkSubscriptionStatus(user) {
+            const userDocRef = doc(db, "users", user.uid);
+            const userDoc = await getDoc(userDocRef);
+            
+            const now = new Date().getTime(); 
+
+            if (userDoc.exists()) {
+                const data = userDoc.data();
+
+                // Monthly কোর্সের মেয়াদ চেক
+                if (data.monthlyExpiry && data.monthlyExpiry > now) {
+                    const btn = document.getElementById('btn-monthly');
+                    btn.innerText = "📖 Open Library";
+                    btn.style.background = "#4ade80"; // সবুজ রঙ
+                    btn.onclick = () => window.location.href = "course-content.html"; // পিডিএফ পেজে যাবে
+                }
+
+                // Full কোর্সের মেয়াদ চেক
+                if (data.fullCourseExpiry && data.fullCourseExpiry > now) {
+                    const btn = document.getElementById('btn-fullcourse');
+                    btn.innerText = "🔓 View Course";
+                    btn.classList.remove('lock-btn');
+                    btn.style.background = "#4ade80";
+                    btn.onclick = () => window.location.href = "video-content.html";
+                }
+            }
+        }
+
+        // কে লগইন করেছে সেটা চেক করা হচ্ছে
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('userName').innerText = user.displayName;
+                if(user.photoURL) {
+                    document.getElementById('profilePic').src = user.photoURL;
+                }
+                
+                // ইউজার লগইন করলেই তার পেমেন্ট স্ট্যাটাস চেক করবে
+                checkSubscriptionStatus(user);
+            } else {
+                window.location.href = "index.html";
+            }
+        });
+
+        // Razorpay Payment Function
+        function initiatePayment(amount, courseType, daysValid, buttonElement) {
+            if (!currentUser) return alert("Please login first!");
+
+            // Test Key (আসল Key পরে Razorpay থেকে নিয়ে বসাবে)
+            const options = {
+                "key": "rzp_test_TGp59pEoS6OU65", 
+                "amount": amount * 100, // পয়সায় হিসেব (50 টাকা = 5000 পয়সা)
+                "currency": "INR",
+                "name": "ED Tech",
+                "description": courseType + " Subscription",
+                "image": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+                "handler": async function (response) {
+                    // পেমেন্ট সাকসেসফুল হলে ফায়ারবেসে ডেটা সেভ হবে
+                    const expiryDate = new Date().getTime() + (daysValid * 24 * 60 * 60 * 1000); 
+                    
+                    const updateData = {};
+                    if(courseType === 'Monthly') updateData.monthlyExpiry = expiryDate;
+                    if(courseType === 'FullCourse') updateData.fullCourseExpiry = expiryDate;
+
+                    await setDoc(doc(db, "users", currentUser.uid), updateData, { merge: true });
+                    
+                    alert("Payment Successful! Course Unlocked.");
+                    checkSubscriptionStatus(currentUser); // বাটন অটো আপডেট হবে
+                },
+                "prefill": {
+                    "name": currentUser.displayName,
+                    "email": currentUser.email
+                },
+                "theme": {
+                    "color": "#38bdf8"
+                }
+            };
+            
+            const rzp1 = new Razorpay(options);
+            rzp1.open();
+        }
+
+        // বাটনগুলোতে পেমেন্ট সিস্টেম যুক্ত করা
+        document.getElementById('btn-monthly').addEventListener('click', function() {
+            if(this.innerText === "Subscribe") {
+                initiatePayment(50, 'Monthly', 30, this); // 50 টাকা, 30 দিন মেয়াদ
+            }
+        });
+
+        document.getElementById('btn-fullcourse').addEventListener('click', function() {
+            if(this.innerText.includes("Unlock")) {
+                initiatePayment(200, 'FullCourse', 120, this); // 200 টাকা, 120 দিন (4 মাস) মেয়াদ
+            }
+        });
+
+        // লগআউট বাটনের কাজ
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            signOut(auth).then(() => {
+                window.location.href = "index.html";
+            }).catch((error) => {
+                console.error("Logout Error:", error);
+            });
+        });
+
+        // ১. মাউসের রাইট ক্লিক ডিজাবেল করা
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            alert('Right click is disabled to protect content privacy!');
+        });
+
+        // ২. কিবোর্ড শর্টকাট (Ctrl+C, Ctrl+U, Print Screen ইত্যাদি) ব্লক করা
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'p')) {
+                e.preventDefault();
+                alert('Copying content is strictly prohibited!');
+            }
+            if (e.key === 'PrintScreen') {
+                e.preventDefault();
+                navigator.clipboard.writeText('');
+                alert('Screenshots are not allowed on this platform!');
+            }
+        });
+
+        // ৩. টেক্সট সিলেক্ট করা বা ড্র্যাগ করা বন্ধ করা
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>

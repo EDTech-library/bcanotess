@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ED Tech - User Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .profile-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(60deg, transparent, rgba(56, 189, 248, 0.1), transparent);
+            transform: rotate(45deg);
+            pointer-events: none;
+        }
+        .avatar-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+        }
+        .profile-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #38bdf8;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+        }
+        h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            color: #f8fafc;
+        }
+        p.email {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+        .info-group {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .info-group label {
+            font-size: 12px;
+            color: #38bdf8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .info-group span {
+            font-size: 15px;
+            color: #e2e8f0;
+            font-weight: 500;
+        }
+        .btn-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .logout-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+        }
+        .logout-btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-card">
+        <div class="avatar-container">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile" class="profile-avatar" id="profilePic" referrerpolicy="no-referrer">
+        </div>
+        
+        <h2 id="userName">Loading...</h2>
+        <p class="email" id="userEmail">Fetching details...</p>
+
+        <div class="info-group">
+            <label>Account UID</label>
+            <span id="userUid">Connecting...</span>
+        </div>
+
+        <div class="info-group">
+            <label>Login Status</label>
+            <span style="color: #4ade80;">● Securely Authenticated</span>
+        </div>
+
+        <div class="btn-container">
+            <button class="btn back-btn" onclick="window.location.href='dashboard.html'">Dashboard</button>
+            <button class="btn logout-btn" id="logoutBtn">Logout</button>
+        </div>
+    </div>
+
+    <!-- Firebase Script to Load Profile Data -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDDy7xLO6WhCXFt8bPAU9AYFYtVoVw8t9k",
+            authDomain: "ed-tech-c6b5a.firebaseapp.com",
+            projectId: "ed-tech-c6b5a",
+            storageBucket: "ed-tech-c6b5a.firebasestorage.app",
+            messagingSenderId: "176482715149",
+            appId: "1:176482715149:web:8fce7c5fe4fcbe4edff744"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('userName').innerText = user.displayName || "ED Tech User";
+                document.getElementById('userEmail').innerText = user.email || user.phoneNumber || "Phone Authenticated User";
+                document.getElementById('userUid').innerText = user.uid;
+                
+                if (user.photoURL) {
+                    document.getElementById('profilePic').src = user.photoURL;
+                }
+            } else {
+                window.location.href = "index.html";
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            signOut(auth).then(() => {
+                window.location.href = "index.html";
+            }).catch((error) => {
+                console.error("Logout Error:", error);
+            });
+        });
+
+
+
+
+        
+    // ১. মাউসের রাইট ক্লিক ডিজাবেল করা
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('Right click is disabled to protect content privacy!');
+    });
+
+    // ২. কিবোর্ড শর্টকাট (Ctrl+C, Ctrl+U, Print Screen ইত্যাদি) ব্লক করা
+    document.addEventListener('keydown', function(e) {
+        // Ctrl+C (Copy), Ctrl+U (View Source), Ctrl+S (Save), F12 (Inspect) ব্লক করা
+        if (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'p')) {
+            e.preventDefault();
+            alert('Copying content is strictly prohibited!');
+        }
+        // Print Screen বা স্ক্রিনশট কি ব্লক করা
+        if (e.key === 'PrintScreen') {
+            e.preventDefault();
+            navigator.clipboard.writeText(''); // ক্লিপবোর্ড ক্লিয়ার করে দেওয়া
+            alert('Screenshots are not allowed on this platform!');
+        }
+    });
+
+    // ৩. টেক্সট সিলেক্ট করা বা ড্র্যাগ করা বন্ধ করা
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    </script>
+</body>
+</html>

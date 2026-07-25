@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ED Tech - Tasks & Orders</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 80px; /* যাতে নিচের ফিক্সড বারের নিচে লেখা ঢাকা না পড়ে */
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            padding: 15px 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        h1 {
+            font-size: 20px;
+            color: #38bdf8;
+        }
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .form-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            color: #38bdf8;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .input-group input, .input-group textarea, .input-group select {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+        .input-group input:focus, .input-group textarea:focus, .input-group select:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+        }
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
+            transition: 0.3s;
+        }
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Mobile Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: #1e1b4b;
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+        .nav-item {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: 0.3s;
+        }
+        .nav-item span {
+            margin-top: 2px;
+            font-size: 10px;
+        }
+        .nav-item.active, .nav-item:hover {
+            color: #38bdf8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>📝 Order Assignment / Task</h1>
+            <button class="back-btn" onclick="window.location.href='dashboard.html'">Dashboard</button>
+        </header>
+
+        <div class="form-card">
+           <form id="taskForm" onsubmit="sendToWhatsApp(event)">
+                <div class="input-group">
+                    <label>Your Name</label>
+                    <input type="text" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Service Type</label>
+                    <select required>
+                        <option value="" disabled selected>Select service</option>
+                        <option value="assignment">BCA Assignment Help</option>
+                        <option value="project">Full-Stack Web Project</option>
+                        <option value="notes">Custom Notes / Presentation</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Project Details / Requirements</label>
+                    <textarea rows="4" placeholder="Describe what you need..." required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Order</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <div class="bottom-nav">
+        <div class="nav-item" onclick="window.location.href='dashboard.html'">🏠<span>Home</span></div>
+        <div class="nav-item" onclick="window.location.href='courses.html'">📚<span>Courses</span></div>
+        <div class="nav-item active" onclick="window.location.href='tasks1.html'">📝<span>Updates</span></div>
+        <div class="nav-item" onclick="window.location.href='profile.html'">👤<span>Profile</span></div>
+    </div>
+<script>
+        function sendToWhatsApp(event) {
+            event.preventDefault();
+
+            // ফর্মের ইনপুট ফিল্ডগুলো থেকে ডেটা নেওয়া
+            const name = document.querySelector('#taskForm input[type="text"]').value;
+            const service = document.querySelector('#taskForm select').value;
+            const details = document.querySelector('#taskForm textarea').value;
+
+            // তোমার WhatsApp নম্বর (কান্ট্রি কোড সহ)
+            const myWhatsAppNumber = "919836370351"; 
+
+            // সুন্দর ফরম্যাটে মেসেজ তৈরি
+            const message = `*New Assignment/Task Order*%0A%0A*Name:* ${name}%0A*Service:* ${service}%0A*Details:* ${details}`;
+
+            // সরাসরি WhatsApp চ্যাট ওপেন করা
+            const url = `https://wa.me/${myWhatsAppNumber}?text=${message}`;
+            window.open(url, '_blank');
+        }
+
+
+        
+    // ১. মাউসের রাইট ক্লিক ডিজাবেল করা
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('Right click is disabled to protect content privacy!');
+    });
+
+    // ২. কিবোর্ড শর্টকাট (Ctrl+C, Ctrl+U, Print Screen ইত্যাদি) ব্লক করা
+    document.addEventListener('keydown', function(e) {
+        // Ctrl+C (Copy), Ctrl+U (View Source), Ctrl+S (Save), F12 (Inspect) ব্লক করা
+        if (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'p')) {
+            e.preventDefault();
+            alert('Copying content is strictly prohibited!');
+        }
+        // Print Screen বা স্ক্রিনশট কি ব্লক করা
+        if (e.key === 'PrintScreen') {
+            e.preventDefault();
+            navigator.clipboard.writeText(''); // ক্লিপবোর্ড ক্লিয়ার করে দেওয়া
+            alert('Screenshots are not allowed on this platform!');
+        }
+    });
+
+    // ৩. টেক্সট সিলেক্ট করা বা ড্র্যাগ করা বন্ধ করা
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    </script>
+</body>
+</html>

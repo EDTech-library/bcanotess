@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ED Tech - Settings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 80px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            padding: 15px 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        h1 {
+            font-size: 20px;
+            color: #38bdf8;
+        }
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .settings-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+        .setting-info h4 {
+            font-size: 15px;
+            color: #f8fafc;
+            margin-bottom: 4px;
+        }
+        .setting-info p {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        .badge {
+            background: rgba(56, 189, 248, 0.1);
+            color: #38bdf8;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+        /* Toggle Switch Styling */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 46px;
+            height: 24px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #38bdf8;
+        }
+        input:checked + .slider:before {
+            transform: translateX(22px);
+        }
+
+        /* Mobile Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: #1e1b4b;
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+
+        @media (min-width: 768px) {
+            .bottom-nav {
+                display: none;
+            }
+            body {
+                padding-bottom: 20px;
+            }
+        }
+
+        .nav-item {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: 0.3s;
+        }
+        .nav-item span {
+            margin-top: 2px;
+            font-size: 10px;
+        }
+        .nav-item.active, .nav-item:hover {
+            color: #38bdf8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>⚙️ Account Settings</h1>
+            <button class="back-btn" onclick="window.location.href='dashboard.html'">Dashboard</button>
+        </header>
+
+        <div class="settings-card">
+            <!-- Authentication Method -->
+            <div class="setting-item">
+                <div class="setting-info">
+                    <h4>Authentication Method</h4>
+                    <p>Secured via Google Sign-In</p>
+                </div>
+                <span class="badge">Google Active</span>
+            </div>
+
+            <!-- Push Notifications -->
+            <div class="setting-item">
+                <div class="setting-info">
+                    <h4>Push Notifications</h4>
+                    <p>Receive alerts for new study notes & tasks</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="notificationToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <div class="bottom-nav">
+        <div class="nav-item" onclick="window.location.href='dashboard.html'">🏠<span>Home</span></div>
+        <div class="nav-item" onclick="window.location.href='courses.html'">📚<span>Courses</span></div>
+        <div class="nav-item" onclick="window.location.href='tasks1.html'">📝<span>Updates</span></div>
+        <div class="nav-item" onclick="window.location.href='profile.html'">👤<span>Profile</span></div>
+    </div>
+
+    <script type="module">
+        // ১. মাউসের রাইট ক্লিক ডিজাবেল করা
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            alert('Right click is disabled to protect content privacy!');
+        });
+
+        // ২. কিবোর্ড শর্টকাট ব্লক করা
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'p')) {
+                e.preventDefault();
+                alert('Copying content is strictly prohibited!');
+            }
+            if (e.key === 'PrintScreen') {
+                e.preventDefault();
+                navigator.clipboard.writeText('');
+                alert('Screenshots are not allowed on this platform!');
+            }
+        });
+
+        // ৩. টেক্সট সিলেক্ট করা বা ড্র্যাগ করা বন্ধ করা
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+        });
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+        import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-messaging.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDDy7xLO6WhCXFt8bPAU9AYFYtVoVw8t9k",
+            authDomain: "ed-tech-c6b5a.firebaseapp.com",
+            projectId: "ed-tech-c6b5a",
+            storageBucket: "ed-tech-c6b5a.firebasestorage.app",
+            messagingSenderId: "176482715149",
+            appId: "1:176482715149:web:8fce7c5fe4fcbe4edff744"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
+
+        const notificationSwitch = document.getElementById('notificationToggle');
+
+        if (notificationSwitch) {
+            // পেজ রিলোড হলে সুইচ নিজে নিজে অন হবে না, ইউজার নিজের মতো কন্ট্রোল করতে পারবে
+            notificationSwitch.checked = false;
+
+            notificationSwitch.addEventListener('change', async function() {
+                if (this.checked) {
+                    try {
+                        const permission = await Notification.requestPermission();
+                        if (permission === 'granted') {
+                            console.log('Notification permission granted.');
+                            // Note: You need to replace 'YOUR_VAPID_KEY_FROM_FIREBASE' with actual VAPID key later for real FCM functionality
+                            const token = await getToken(messaging, { vapidKey: 'BG4gAb5-NIUr0BKlb_a6nJ-Nuopnja4mUBp1U1nuEWY6mJdi7R2jcS6QRVtKr3zTFh4mXRjys4w-x9aY_48qPGE' });
+                            console.log('FCM Token:', token);
+                            alert('Push notifications enabled successfully!');
+                        } else {
+                            alert('Permission denied!');
+                            this.checked = false;
+                        }
+                    } catch (error) {
+                        console.error('Error enabling notifications:', error);
+                        this.checked = false;
+                    }
+                } else {
+                    alert('Notifications disabled.');
+                    this.checked = false;
+                }
+            });
+        }
+    </script>
+</body>
+</html>

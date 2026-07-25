@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ED Tech - Courses & Notes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Razorpay Checkout Script (পেমেন্ট পপআপ আনার জন্য) -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            padding: 15px 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        h1 {
+            font-size: 22px;
+            color: #38bdf8;
+        }
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .course-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+        .course-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(56, 189, 248, 0.4);
+        }
+        .course-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #f8fafc;
+        }
+        .course-card p {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+        .price {
+            font-size: 18px;
+            font-weight: 600;
+            color: #38bdf8;
+        }
+        .action-btn {
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
+            transition: 0.3s;
+        }
+        .action-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* =========================================
+   Futuristic Cyber Card (Dark Theme)
+   ========================================= */
+.cyber-card {
+    background: linear-gradient(145deg, #0b1536, #162244); /* তোমার ছবির ব্যাকগ্রাউন্ডের সাথে ম্যাচ করা */
+    border: 1px solid rgba(56, 189, 248, 0.15);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 16px;
+    transition: all 0.3s ease;
+}
+
+.cyber-card:hover {
+    border-color: #38bdf8;
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+    transform: translateY(-2px);
+}
+
+/* কার্ডের ভেতরে হালকা গ্লো (Futuristic Vibe) */
+.cyber-card::before {
+    content: "";
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 120px;
+    height: 120px;
+    background: rgba(56, 189, 248, 0.15);
+    filter: blur(45px);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* =========================================
+   Neon Button Animation for Dark Theme
+   ========================================= */
+@keyframes spin-neon {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.neon-dark-wrapper {
+    position: relative;
+    display: inline-flex;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 3px; 
+    cursor: pointer;
+}
+
+.neon-dark-wrapper::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    /* ডার্ক থিমের জন্য সায়ান ও নীল লাইট */
+    background: conic-gradient(transparent, transparent, transparent, #06b6d4, #3b82f6, transparent);
+    animation: spin-neon 2s linear infinite;
+}
+
+.neon-dark-button {
+    position: relative;
+    z-index: 1;
+    background: #0b1727; /* বাটনের ভেতরের ডার্ক কালার */
+    color: #38bdf8;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 13px;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.neon-dark-button:hover {
+    background: #1e293b;
+    color: #ffffff;
+}
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>📚 Available Courses & Notes</h1>
+            <button class="back-btn" onclick="window.location.href='dashboard.html'">Dashboard</button>
+        </header>
+
+        <div class="grid">
+            <!-- Item 1 -->
+            <div class="course-card">
+                <div>
+                    <h3>BCA First Year Notes</h3>
+                    <p>Complete semester notes, previous year questions with answers, and algorithm guides.</p>
+                </div>
+                <div class="price-row">
+                    <span class="price">₹50 / Month</span>
+                    <!-- আইডি যোগ করা হলো -->
+                    <button class="action-btn" id="btn-course-monthly">Subscribe</button>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="course-card">
+                <div>
+                    <h3>Full Course Videos</h3>
+                    <p>In-depth video lectures covering core programming and mathematics subjects.</p>
+                </div>
+                <div class="price-row">
+                    <span class="price">₹200 / Full Course</span>
+                    <!-- আইডি যোগ করা হলো -->
+                    <button class="action-btn" id="btn-course-full">Unlock</button>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <!-- 🚀 Futuristic Coding Playground Card -->
+<div class="cyber-card">
+    <div style="position: relative; z-index: 1;">
+        
+        <h3 style="color: #ffffff; font-size: 18px; font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 20px;">💻</span> Web Dev & C Program
+        </h3>
+        
+        <!-- টেক্সট আপডেট করে দিয়েছি যাতে নতুন প্লেগ্রাউন্ডের সাথে ম্যাচ করে -->
+        <p style="color: #94a3b8; font-size: 13px; margin-bottom: 20px; line-height: 1.5;">
+            Learn HTML, CSS, JavaScript, and C Programming with live code execution and secure notes.
+        </p>
+        
+        <!-- নিচের অংশ: Free Access এবং Button -->
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: #06b6d4; font-weight: 700; font-size: 15px; text-shadow: 0 0 10px rgba(6, 182, 212, 0.3);">
+                Free Access
+            </span>
+            
+            <!-- Glowing Button -->
+            <div class="neon-dark-wrapper" onclick="window.location.href='web-dev.html'">
+                <button class="neon-dark-button">
+                    🚀 Start Learning
+                </button>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+    <!-- Firebase Script for Checking Payment & Razorpay Integration -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDDy7xLO6WhCXFt8bPAU9AYFYtVoVw8t9k",
+            authDomain: "ed-tech-c6b5a.firebaseapp.com",
+            projectId: "ed-tech-c6b5a",
+            storageBucket: "ed-tech-c6b5a.firebasestorage.app",
+            messagingSenderId: "176482715149",
+            appId: "1:176482715149:web:8fce7c5fe4fcbe4edff744"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+
+        // ইউজারের পেমেন্ট স্ট্যাটাস চেক করার ফাংশন
+        async function checkSubscriptionStatus(user) {
+            const userDocRef = doc(db, "users", user.uid);
+            const userDoc = await getDoc(userDocRef);
+            
+            const now = new Date().getTime(); 
+
+            if (userDoc.exists()) {
+                const data = userDoc.data();
+
+                // Monthly কোর্সের মেয়াদ চেক
+                if (data.monthlyExpiry && data.monthlyExpiry > now) {
+                    const btn = document.getElementById('btn-course-monthly');
+                    btn.innerText = "📖 Open Library";
+                    btn.style.background = "#4ade80"; 
+                    btn.onclick = () => window.location.href = "course-content.html"; 
+                }
+
+                // Full কোর্সের মেয়াদ চেক
+                if (data.fullCourseExpiry && data.fullCourseExpiry > now) {
+                    const btn = document.getElementById('btn-course-full');
+                    btn.innerText = "🔓 View Course";
+                    btn.style.background = "#4ade80";
+                    btn.onclick = () => window.location.href = "video-content.html";
+                }
+            }
+        }
+
+        // কে লগইন করেছে সেটা চেক করা
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                checkSubscriptionStatus(user);
+            } else {
+                window.location.href = "index.html"; // লগইন না থাকলে ইনডেক্স পেজে পাঠাবে
+            }
+        });
+
+        // Razorpay Payment Function
+        function initiatePayment(amount, courseType, daysValid, buttonElement) {
+            if (!currentUser) return alert("Please login first!");
+
+            // Test Key (এখানে তোমার আসল Test Key বসিয়ে নিও)
+            const options = {
+                "key": "rzp_test_TGp59pEoS6OU65", 
+                "amount": amount * 100, // পয়সায় হিসেব
+                "currency": "INR",
+                "name": "ED Tech",
+                "description": courseType + " Subscription",
+                "image": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+                "handler": async function (response) {
+                    const expiryDate = new Date().getTime() + (daysValid * 24 * 60 * 60 * 1000); 
+                    
+                    const updateData = {};
+                    if(courseType === 'Monthly') updateData.monthlyExpiry = expiryDate;
+                    if(courseType === 'FullCourse') updateData.fullCourseExpiry = expiryDate;
+
+                    await setDoc(doc(db, "users", currentUser.uid), updateData, { merge: true });
+                    
+                    alert("Payment Successful! Course Unlocked.");
+                    checkSubscriptionStatus(currentUser); 
+                },
+                "prefill": {
+                    "name": currentUser.displayName || "Student",
+                    "email": currentUser.email
+                },
+                "theme": {
+                    "color": "#38bdf8"
+                }
+            };
+            
+            const rzp1 = new Razorpay(options);
+            rzp1.open();
+        }
+
+        // বাটনগুলোতে ইভেন্ট লিসেনার যুক্ত করা
+        document.getElementById('btn-course-monthly').addEventListener('click', function() {
+            if(this.innerText === "Subscribe") {
+                initiatePayment(50, 'Monthly', 30, this);
+            }
+        });
+
+        document.getElementById('btn-course-full').addEventListener('click', function() {
+            if(this.innerText === "Unlock") {
+                initiatePayment(200, 'FullCourse', 120, this);
+            }
+        });
+    </script>
+
+    <script>
+    // ১. মাউসের রাইট ক্লিক ডিজাবেল করা
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('Right click is disabled to protect content privacy!');
+    });
+
+    // ২. কিবোর্ড শর্টকাট (Ctrl+C, Ctrl+U, Print Screen ইত্যাদি) ব্লক করা
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'p')) {
+            e.preventDefault();
+            alert('Copying content is strictly prohibited!');
+        }
+        if (e.key === 'PrintScreen') {
+            e.preventDefault();
+            navigator.clipboard.writeText(''); 
+            alert('Screenshots are not allowed on this platform!');
+        }
+    });
+
+    // ৩. টেক্সট সিলেক্ট করা বা ড্র্যাগ করা বন্ধ করা
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+    </script>
+</body>
+</html>

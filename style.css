@@ -1,0 +1,198 @@
+/* বেসিক রিসেট এবং ফন্ট সেটআপ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* ভাইব্র্যান্ট ব্যাকগ্রাউন্ড */
+body {
+    background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Glassmorphism কার্ডের ডিজাইন */
+.glass-card {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    text-align: center;
+}
+
+/* ED Tech নামের কালারফুল গ্রেডিয়েন্ট */
+.brand-name {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+    -webkit-background-clip: text;
+    background-clip: text; /* এই নতুন লাইনটা যোগ করা হলো */
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 5px;
+}
+
+.tagline {
+    font-size: 0.9rem;
+    color: #4a4a4a;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.welcome-text {
+    font-size: 0.95rem;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+/* বাটনের কমন স্টাইল */
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Google বাটন হোভার এফেক্ট */
+.google-btn {
+    background-color: #ffffff;
+    color: #333;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.google-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+.google-icon {
+    width: 20px;
+}
+
+/* ডিভাইডার (OR) */
+.divider {
+    margin: 25px 0;
+    position: relative;
+    text-align: center;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 40%;
+    height: 1px;
+    background: #ccc;
+}
+
+.divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 40%;
+    height: 1px;
+    background: #ccc;
+}
+
+.divider span {
+    color: #666;
+    font-size: 0.9rem;
+    background: transparent;
+    padding: 0 10px;
+}
+
+/* ইনপুট ফিল্ড */
+.input-field {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.6);
+    font-size: 1rem;
+    margin-bottom: 15px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.input-field:focus {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: #4facfe;
+}
+
+/* OTP বাটনের কালারফুল গ্রেডিয়েন্ট */
+.otp-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+}
+
+.otp-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(118, 75, 162, 0.3);
+}
+
+/* Semester Selection Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+
+.modal-content h2 { color: #1e293b; margin-bottom: 10px; font-size: 1.5rem; }
+.modal-content p { color: #64748b; font-size: 0.9rem; margin-bottom: 25px; }
+
+.sem-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.sem-btn {
+    background: #f1f5f9;
+    border: 2px solid transparent;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    color: #334155;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.sem-btn:hover {
+    background: #e0f2fe;
+    border-color: #38bdf8;
+    color: #0284c7;
+    transform: translateY(-2px);
+}
