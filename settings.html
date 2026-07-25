@@ -262,7 +262,9 @@
                         if (permission === 'granted') {
                             console.log('Notification permission granted.');
                             // Note: You need to replace 'YOUR_VAPID_KEY_FROM_FIREBASE' with actual VAPID key later for real FCM functionality
-                            const token = await getToken(messaging, { vapidKey: 'BG4gAb5-NIUr0BKlb_a6nJ-Nuopnja4mUBp1U1nuEWY6mJdi7R2jcS6QRVtKr3zTFh4mXRjys4w-x9aY_48qPGE' });
+                            const reg = await navigator.serviceWorker.register('./firebase-messaging-sw.js');
+                            const token = await getToken(messaging, { vapidKey: 'BG4gAb5-NIUr0BKlb_a6nJ-Nuopnja4mUBp1U1nuEWY6mJdi7R2jcS6QRVtKr3zTFh4mXRjys4w-x9aY_48qPGE', serviceWorkerRegistration: reg });
+                           // const token = await getToken(messaging, { vapidKey: 'BG4gAb5-NIUr0BKlb_a6nJ-Nuopnja4mUBp1U1nuEWY6mJdi7R2jcS6QRVtKr3zTFh4mXRjys4w-x9aY_48qPGE' });
                             console.log('FCM Token:', token);
                             alert('Push notifications enabled successfully!');
                         } else {
