@@ -48,6 +48,53 @@
 
     <!-- Main Dashboard Area -->
     <main class="dashboard-container">
+
+        <!-- ==========================================
+     ED Tech - Premium Infinite Slider & Modal
+     ========================================== -->
+
+<!-- স্লাইডার এরিয়া -->
+<div class="et-slider-wrapper">
+    <div class="et-slider-track" id="etUpdateSlider">
+        
+        <!-- স্লাইড ১: ছবির পোস্টার (চুরি আটকানো আছে) -->
+        <div class="et-slide">
+            <img src="poster1.png" alt="Notice 1" draggable="false" oncontextmenu="return false;">
+        </div>
+
+        <!-- স্লাইড ২: টেক্সট নোটিশ -->
+        <div class="et-slide et-text-bg">
+            <div class="et-notice-text">
+                <h3>🔥 New BCA Notes!</h3>
+                <p>Check out your library and start learning.</p>
+            </div>
+        </div>
+
+        <!-- স্লাইড ৩: সাইলেন্ট ভিডিও প্রিভিউ ও গ্লাস বাটন -->
+        <!-- 'update-video.mp4' এর জায়গায় তোমার ভিডিও লিংক দেবে -->
+        <div class="et-slide et-video-preview" onclick="openEtVideo('update-video.mp4')">
+            <video src="update-video.mp4" autoplay muted loop playsinline disablePictureInPicture oncontextmenu="return false;" class="et-silent-bg-vid"></video>
+            <div class="et-glass-play-btn">▶ Click to Play</div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Apple Style Glassmorphism Modal (পপ-আপ) -->
+<div id="et-video-modal" class="et-glass-modal">
+    <div class="et-modal-content">
+        <!-- Close Button -->
+        <span class="et-close-btn" onclick="closeEtModal()">✖</span>
+        
+        <!-- Video Player (ডাউনলোড বন্ধ করা) -->
+        <video id="et-popup-video" loop playsinline disablePictureInPicture oncontextmenu="return false;" controlsList="nodownload noplaybackrate"></video>
+        
+        <!-- Mute/Unmute Button -->
+        <button id="et-mute-btn" class="et-mute-btn-style" onclick="toggleEtVideoMute()">🔇 Unmute</button>
+    </div>
+</div>
+
+        
         <header class="welcome-section">
             <h1>Welcome to your Library! 📚</h1>
             <p>Select your course or order custom assignments below.</p>
@@ -288,6 +335,130 @@
         document.addEventListener('selectstart', function(e) {
             e.preventDefault();
         });
+
+
+        
+   /* ==========================================
+   ED Tech - Interactive Infinite Scroll & Video Logic
+   ========================================== */
+
+const etSlider = document.getElementById('etUpdateSlider');
+let etAutoScrollTimer; // টাইমার ভেরিয়েবল
+
+if (etSlider) {
+    // ইনফিনিট লুপের ম্যাজিক: স্লাইডগুলো ডুপ্লিকেট করা হলো
+    etSlider.innerHTML += etSlider.innerHTML; 
+    
+    // অটো-স্ক্রোল ফাংশন
+    function startEtAutoScroll() {
+        // আগে কোনো টাইমার থাকলে বন্ধ করে নতুন করে শুরু
+        clearInterval(etAutoScrollTimer);
+        
+        etAutoScrollTimer = setInterval(() => {
+            let singleSetWidth = etSlider.scrollWidth / 2; 
+
+            if (etSlider.scrollLeft >= singleSetWidth - 5) {
+                // কেউ বোঝার আগেই শুরুতে নিয়ে আসা
+                etSlider.style.scrollBehavior = 'auto'; 
+                etSlider.scrollLeft = 0; 
+                
+                // সাথে সাথে আবার স্মুথ স্ক্রোল চালু করে ডানদিকে সরানো
+                setTimeout(() => {
+                    etSlider.style.scrollBehavior = 'smooth';
+                    etSlider.scrollLeft += etSlider.clientWidth;
+                }, 50);
+            } else {
+                etSlider.style.scrollBehavior = 'smooth';
+                etSlider.scrollLeft += etSlider.clientWidth;
+            }
+        }, 4000); // ৪ সেকেন্ড পর পর ঘুরবে
+    }
+
+    // পেজ লোড হলেই অটো-স্ক্রোল চালু হবে
+    startEtAutoScroll();
+
+    /* 🛑 থামানোর লজিক: মাউস রাখলে বা টাচ করলে স্ক্রোল থামবে */
+    etSlider.addEventListener('mouseenter', () => clearInterval(etAutoScrollTimer));
+    etSlider.addEventListener('touchstart', () => clearInterval(etAutoScrollTimer));
+
+    /* 🟢 আবার শুরুর লজিক: মাউস বা হাত সরিয়ে নিলে আবার ঘুরতে শুরু করবে */
+    etSlider.addEventListener('mouseleave', startEtAutoScroll);
+    etSlider.addEventListener('touchend', startEtAutoScroll);
+
+    /* 🖱️ ডেস্কটপে মাউস দিয়ে টেনে (Drag & Swipe) স্লাইড করার লজিক */
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    etSlider.addEventListener('mousedown', (e) => {
+        isDown = true;
+        etSlider.style.scrollBehavior = 'auto'; // ড্র্যাগ করার সময় স্মুথ অফ রাখতে হয়
+        startX = e.pageX - etSlider.offsetLeft;
+        scrollLeft = etSlider.scrollLeft;
+        clearInterval(etAutoScrollTimer); // টানার সময় অটো-স্ক্রোল বন্ধ থাকবে
+    });
+
+    etSlider.addEventListener('mouseleave', () => {
+        isDown = false;
+    });
+
+    etSlider.addEventListener('mouseup', () => {
+        isDown = false;
+        etSlider.style.scrollBehavior = 'smooth';
+    });
+
+    etSlider.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault(); // ছবি বা টেক্সট সিলেক্ট হওয়া আটকানো
+        const x = e.pageX - etSlider.offsetLeft;
+        const walk = (x - startX) * 1.5; // 1.5 হলো টানার স্পিড
+        etSlider.scrollLeft = scrollLeft - walk;
+    });
+}
+
+// 🎬 ভিডিও পপ-আপ খোলার ফাংশন
+window.openEtVideo = function(videoUrl) {
+    const modal = document.getElementById('et-video-modal');
+    const video = document.getElementById('et-popup-video');
+    const muteBtn = document.getElementById('et-mute-btn');
+    
+    if (modal && video) {
+        video.src = videoUrl;
+        modal.style.display = 'flex';
+        video.muted = true; // শুরুতে মিউট থাকবে
+        video.play(); 
+        if (muteBtn) muteBtn.innerText = '🔇 Unmute';
+    }
+};
+
+// ✖ পপ-আপ বন্ধ করার ফাংশন
+window.closeEtModal = function() {
+    const modal = document.getElementById('et-video-modal');
+    const video = document.getElementById('et-popup-video');
+    
+    if (modal && video) {
+        modal.style.display = 'none';
+        video.pause(); 
+        video.src = ''; 
+    }
+};
+
+// 🔊 মিউট/আনমিউট কন্ট্রোল
+window.toggleEtVideoMute = function() {
+    const video = document.getElementById('et-popup-video');
+    const muteBtn = document.getElementById('et-mute-btn');
+    
+    if (video && muteBtn) {
+        if (video.muted) {
+            video.muted = false;
+            muteBtn.innerText = '🔊 Mute';
+        } else {
+            video.muted = true;
+            muteBtn.innerText = '🔇 Unmute';
+        }
+    }
+}; 
+
     </script>
 </body>
 </html>
