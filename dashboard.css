@@ -711,3 +711,138 @@ body {
     background: #1e293b;
 
 }
+
+
+/* ==========================================
+   ED Tech - Slider & Apple Glassmorphism CSS
+   ========================================== */
+
+/* --- স্লাইডারের মেইন র‍্যাপার --- */
+.et-slider-wrapper {
+    width: 100%;
+    max-width: 1000px;
+    height: 120px;
+    margin: 15px auto 25px auto;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    background: #f8fafc;
+}
+
+@media (min-width: 768px) {
+    .et-slider-wrapper { height: 160px; }
+}
+
+/* --- স্লাইডার ট্র্যাক (লুকানো স্ক্রলবার) --- */
+.et-slider-track {
+    display: flex;
+    height: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+}
+.et-slider-track::-webkit-scrollbar { display: none; }
+
+/* --- প্রতিটি স্লাইড --- */
+.et-slide {
+    flex: 0 0 100%;
+    height: 100%;
+    scroll-snap-align: start;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent; 
+}
+
+/* 🔥 ছবি ও ভিডিও চুরি আটকানোর প্রোটেকশন 🔥 */
+.et-slide img, .et-modal-content video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    -webkit-user-drag: none; 
+    user-select: none; 
+    -webkit-touch-callout: none; /* মোবাইল লং-প্রেস বন্ধ */
+}
+
+/* --- টেক্সট নোটিশের স্টাইল --- */
+.et-text-bg { background: linear-gradient(135deg, #1e293b, #0f172a); }
+.et-notice-text { color: white; text-align: center; padding: 0 15px; }
+.et-notice-text h3 { margin: 0; font-size: 16px; font-weight: 600; }
+.et-notice-text p { margin: 4px 0 0 0; font-size: 12px; opacity: 0.85; }
+
+/* --- ভিডিও প্রিভিউ ও সাইলেন্ট ব্যাকগ্রাউন্ড --- */
+.et-video-preview { background: transparent; overflow: hidden; }
+.et-silent-bg-vid {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    -webkit-user-drag: none; user-select: none; pointer-events: none; 
+    filter: brightness(0.85); /* ভিডিও একটু ডার্ক করা হলো */
+}
+
+/* 💎 গ্লাসমরফিজম 'Click to Play' বাটন 💎 */
+.et-glass-play-btn {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.15); 
+    color: white; padding: 10px 24px;
+    border-radius: 30px; font-weight: 600; font-size: 14px;
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    display: flex; align-items: center; pointer-events: none; 
+    text-shadow: 0 2px 4px rgba(0,0,0,0.4); letter-spacing: 0.5px;
+}
+
+/* -------------------------------------
+   Apple Style Glassmorphism Pop-up 
+---------------------------------------- */
+.et-glass-modal {
+    display: none; position: fixed; z-index: 99999; 
+    left: 0; top: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.65); 
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    align-items: center; justify-content: center;
+}
+
+.et-modal-content {
+    position: relative; width: 95%; max-width: 1000px; 
+    background: rgba(255, 255, 255, 0.1); 
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+    border-radius: 20px; padding: 15px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+    display: flex; flex-direction: column; align-items: center;
+}
+
+@media (min-width: 768px) {
+    .et-modal-content { width: 80%; padding: 25px; border-radius: 24px; }
+}
+
+/* 🎬 ভিডিওর পারফেক্ট মাপ (16:9) */
+.et-modal-content video {
+    width: 100%; height: auto; 
+    aspect-ratio: 16 / 9; /* ভিডিও ফাটবে না */
+    border-radius: 12px; display: block; background: #000;
+}
+
+.et-close-btn {
+    position: absolute; top: -15px; right: -10px; 
+    background: #ffffff; color: #000;
+    border-radius: 50%; width: 35px; height: 35px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-weight: bold; font-size: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 10; transition: 0.3s;
+}
+.et-close-btn:hover { background: #ff4d4d; color: white; }
+
+.et-mute-btn-style {
+    display: block; margin: 15px auto 0; padding: 10px 24px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: white; font-weight: 600; border-radius: 25px;
+    cursor: pointer; transition: 0.3s; font-size: 15px; letter-spacing: 0.5px;
+}
+.et-mute-btn-style:hover { background: rgba(255, 255, 255, 0.4); }
