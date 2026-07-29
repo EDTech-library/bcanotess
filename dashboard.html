@@ -276,7 +276,7 @@
                     else if (courseType === 'FullCourse') {
                         // Full Course: নির্দিষ্ট তারিখ (যেমন: ৩০ নভেম্বর ২০২৬ রাত ১১:৫৯) পর্যন্ত চলবে
                         // তুমি যখন খুশি এই তারিখটা এখানে এসে পাল্টে দিতে পারবে
-                        expiryDate = new Date("2026-07-29T14:59:59").getTime(); 
+                        expiryDate = new Date("2026-07-29T14:00:00").getTime(); 
                         updateData.fullCourseExpiry = expiryDate;
                     }
 
@@ -306,11 +306,24 @@
             }
         });
 
-        document.getElementById('btn-fullcourse').addEventListener('click', function() {
-            if(this.innerText.includes("Unlock")) {
-                initiatePayment(200, 'FullCourse', 120, this); // 200 টাকা, 120 দিন (4 মাস) মেয়াদ
-            }
-        });
+        // ফুল কোর্স বাটনের কাজ (Expiry Check সহ)
+document.getElementById('btn-fullcourse').addEventListener('click', function() {
+    if(this.innerText.includes("Unlock")) {
+        
+        // কোর্স শেষ হওয়ার তারিখ (যেটা তুমি ওপরে সেট করেছ, সেটাই এখানে দেবে)
+        const courseEndDate = new Date("2026-07-29T14:00:00").getTime();
+        const currentDate = new Date().getTime();
+
+        // যদি আজকের দিনটা কোর্স শেষের দিনের চেয়ে বেশি হয় (অর্থাৎ মেয়াদ শেষ)
+        if (currentDate > courseEndDate) {
+            alert("❌ Sorry, this course has expired! Admission is closed.");
+            return; // এখানেই কোড থেমে যাবে, পেমেন্ট পেজ আর খুলবে না
+        }
+
+        // মেয়াদ থাকলে তবেই পেমেন্ট পেজ খুলবে
+        initiatePayment(200, 'FullCourse', 0, this); 
+    }
+});
 
         // লগআউট বাটনের কাজ
         document.getElementById('logoutBtn').addEventListener('click', () => {
