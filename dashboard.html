@@ -265,13 +265,22 @@
                 "description": courseType + " Subscription",
                 "image": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
                 "handler": async function (response) {
-                    // পেমেন্ট সাকসেসফুল হলে ফায়ারবেসে ডেটা সেভ হবে
-                    const expiryDate = new Date().getTime() + (daysValid * 24 * 60 * 60 * 1000); 
-                    
+                    let expiryDate;
                     const updateData = {};
-                    if(courseType === 'Monthly') updateData.monthlyExpiry = expiryDate;
-                    if(courseType === 'FullCourse') updateData.fullCourseExpiry = expiryDate;
+                    
+                    if (courseType === 'Monthly') {
+                        // Monthly: বর্তমান সময় থেকে ঠিক ৩০ দিন (30 days) পর শেষ হবে
+                        expiryDate = new Date().getTime() + (30 * 24 * 60 * 60 * 1000); 
+                        updateData.monthlyExpiry = expiryDate;
+                    } 
+                    else if (courseType === 'FullCourse') {
+                        // Full Course: নির্দিষ্ট তারিখ (যেমন: ৩০ নভেম্বর ২০২৬ রাত ১১:৫৯) পর্যন্ত চলবে
+                        // তুমি যখন খুশি এই তারিখটা এখানে এসে পাল্টে দিতে পারবে
+                        expiryDate = new Date("2026-07-29T14:59:59").getTime(); 
+                        updateData.fullCourseExpiry = expiryDate;
+                    }
 
+                    // ফায়ারবেসে ইউজারের ডেটা আপডেট করা
                     await setDoc(doc(db, "users", currentUser.uid), updateData, { merge: true });
                     
                     alert("Payment Successful! Course Unlocked.");
