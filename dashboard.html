@@ -286,7 +286,7 @@
                     else if (courseType === 'FullCourse') {
                         // ⚠️ টেস্টিংয়ের জন্য এখন ৫ মিনিট (5 mins) দেওয়া আছে। টেস্ট হয়ে গেলে এটা পাল্টে আসল ডেট দেবে! ⚠️
                         // আসল ডেট দেওয়ার নিয়ম: expiryDate = new Date("2026-11-30T23:59:59").getTime();
-                        expiryDate = new Date().getTime() + (5 * 60 * 1000); // বর্তমান সময় + ৫ মিনিট
+                        expiryDate = new Date("2027-02-15T23:59:59").getTime(); 
                         updateData.fullCourseExpiry = expiryDate;
                     }
 
@@ -323,7 +323,7 @@
                 
                 // ⚠️ যখন নতুন ব্যাচ চালু করবে, তখন এখানকার ডেটটা পাল্টে আসল শেষের তারিখ বসাবে (যেমন: 2026-11-30) ⚠️
                 // এখন টেস্টিংয়ের জন্য ২০২৭ দেওয়া আছে, যাতে তোমার ট্রায়াল পেমেন্ট পেজটা খোলে। 
-                const courseEndDate = new Date("2027-11-30T23:59:59").getTime();
+                const courseEndDate = new Date("2027-01-10T23:59:59").getTime();
                 const currentDate = new Date().getTime();
 
                 // যদি তুমি নতুন ডেট না দিয়ে থাকো, আর বর্তমান সময় পেরিয়ে যায়
