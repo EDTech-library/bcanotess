@@ -117,7 +117,7 @@
    Futuristic Cyber Card (Dark Theme)
    ========================================= */
 .cyber-card {
-    background: linear-gradient(145deg, #0b1536, #162244); /* তোমার ছবির ব্যাকগ্রাউন্ডের সাথে ম্যাচ করা */
+    background: linear-gradient(145deg, #0b1536, #162244); 
     border: 1px solid rgba(56, 189, 248, 0.15);
     border-radius: 12px;
     padding: 20px;
@@ -171,7 +171,6 @@
     left: -50%;
     width: 200%;
     height: 200%;
-    /* ডার্ক থিমের জন্য সায়ান ও নীল লাইট */
     background: conic-gradient(transparent, transparent, transparent, #06b6d4, #3b82f6, transparent);
     animation: spin-neon 2s linear infinite;
 }
@@ -179,7 +178,7 @@
 .neon-dark-button {
     position: relative;
     z-index: 1;
-    background: #0b1727; /* বাটনের ভেতরের ডার্ক কালার */
+    background: #0b1727; 
     color: #38bdf8;
     padding: 8px 18px;
     border-radius: 8px;
@@ -243,7 +242,6 @@
             <span style="font-size: 20px;">💻</span> Web Dev & C Program
         </h3>
         
-        <!-- টেক্সট আপডেট করে দিয়েছি যাতে নতুন প্লেগ্রাউন্ডের সাথে ম্যাচ করে -->
         <p style="color: #94a3b8; font-size: 13px; margin-bottom: 20px; line-height: 1.5;">
             Learn HTML, CSS, JavaScript, and C Programming with live code execution and secure notes.
         </p>
@@ -296,7 +294,7 @@
             if (userDoc.exists()) {
                 const data = userDoc.data();
 
-                // Monthly কোর্সের মেয়াদ চেক
+                // Monthly কোর্সের মেয়াদ চেক
                 if (data.monthlyExpiry && data.monthlyExpiry > now) {
                     const btn = document.getElementById('btn-course-monthly');
                     btn.innerText = "📖 Open Library";
@@ -304,12 +302,22 @@
                     btn.onclick = () => window.location.href = "course-content.html"; 
                 }
 
-                // Full কোর্সের মেয়াদ চেক
-                if (data.fullCourseExpiry && data.fullCourseExpiry > now) {
-                    const btn = document.getElementById('btn-course-full');
-                    btn.innerText = "🔓 View Course";
-                    btn.style.background = "#4ade80";
-                    btn.onclick = () => window.location.href = "video-content.html";
+                // 🚀 Full কোর্সের মেয়াদ চেক (আপডেট করা লজিক)
+                if (data.fullCourseExpiry) {
+                    if (data.fullCourseExpiry > now) {
+                        // ✅ যদি মেয়াদ থাকে, তাহলে কোর্স ওপেন হবে
+                        const btn = document.getElementById('btn-course-full');
+                        btn.innerText = "🔓 View Course";
+                        btn.style.background = "#4ade80";
+                        btn.onclick = () => window.location.href = "video-content.html";
+                    } else {
+                        // 🛑 যদি মেয়াদ শেষ হয়ে যায় (Expired এবং Renew একসাথে দেখাবে)
+                        const btn = document.getElementById('btn-course-full');
+                        btn.innerText = "⚠️ Expired - Renew Now"; 
+                        btn.style.background = "#f59e0b"; // কমলা/হলুদ রং 
+                        btn.style.cursor = "pointer";
+                        btn.onclick = null; // অ্যালার্ট সরানো হলো যাতে রিনিউ করার জন্য পেমেন্ট পেজ খোলে
+                    }
                 }
             }
         }
@@ -328,7 +336,7 @@
         function initiatePayment(amount, courseType, daysValid, buttonElement) {
             if (!currentUser) return alert("Please login first!");
 
-            // Test Key (এখানে তোমার আসল Test Key বসিয়ে নিও)
+            // Test Key (এখানে তোমার আসল Test Key বসিয়ে নিও)
             const options = {
                 "key": "rzp_test_TGp59pEoS6OU65", 
                 "amount": amount * 100, // পয়সায় হিসেব
@@ -337,11 +345,20 @@
                 "description": courseType + " Subscription",
                 "image": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
                 "handler": async function (response) {
-                    const expiryDate = new Date().getTime() + (daysValid * 24 * 60 * 60 * 1000); 
-                    
+                    let expiryDate;
                     const updateData = {};
-                    if(courseType === 'Monthly') updateData.monthlyExpiry = expiryDate;
-                    if(courseType === 'FullCourse') updateData.fullCourseExpiry = expiryDate;
+                    
+                    if (courseType === 'Monthly') {
+                        // Monthly: বর্তমান সময় থেকে ঠিক ৩০ দিন পর শেষ হবে
+                        expiryDate = new Date().getTime() + (30 * 24 * 60 * 60 * 1000); 
+                        updateData.monthlyExpiry = expiryDate;
+                    } 
+                    else if (courseType === 'FullCourse') {
+                        // ⚠️ টেস্টিংয়ের জন্য এখন ৫ মিনিট (5 mins) দেওয়া আছে।
+                        // আসল ডেট দেওয়ার নিয়ম: expiryDate = new Date("2026-11-30T23:59:59").getTime();
+                        expiryDate = new Date().getTime() + (5 * 60 * 1000); 
+                        updateData.fullCourseExpiry = expiryDate;
+                    }
 
                     await setDoc(doc(db, "users", currentUser.uid), updateData, { merge: true });
                     
@@ -368,9 +385,24 @@
             }
         });
 
+        // 🚀 ফুল কোর্স বাটনের কাজ (Expiry ও Renew Check সহ)
         document.getElementById('btn-course-full').addEventListener('click', function() {
-            if(this.innerText === "Unlock") {
-                initiatePayment(200, 'FullCourse', 120, this);
+            // যদি বাটনে Unlock বা Renew লেখা থাকে, তবেই কাজ করবে
+            if(this.innerText.includes("Unlock") || this.innerText.includes("Renew")) {
+                
+                // ⚠️ যখন নতুন ব্যাচ চালু করবে, তখন এখানকার ডেটটা পাল্টে আসল শেষের তারিখ বসাবে (যেমন: 2026-11-30) ⚠️
+                // এখন টেস্টিংয়ের জন্য ২০২৭ দেওয়া আছে, যাতে তোমার ট্রায়াল পেমেন্ট পেজটা খোলে। 
+                const courseEndDate = new Date("2027-11-30T23:59:59").getTime();
+                const currentDate = new Date().getTime();
+
+                // যদি তুমি নতুন ডেট না দিয়ে থাকো, আর বর্তমান সময় পেরিয়ে যায়
+                if (currentDate > courseEndDate) {
+                    alert("❌ Sorry, admission for this batch is closed! Please wait for the next batch.");
+                    return; 
+                }
+
+                // মেয়াদ থাকলে বা তুমি ডেট বাড়ালে তবেই পেমেন্ট পেজ খুলবে
+                initiatePayment(200, 'FullCourse', 0, this); 
             }
         });
     </script>
