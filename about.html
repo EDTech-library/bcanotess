@@ -1,161 +1,433 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- এই লাইনটি যোগ করো -->
-    <link rel="icon" type="image/png" href="icon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ED Tech - About Us</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>About ED Tech</title>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+        /* =========================================
+           SECURITY & ANTI-COPY CSS
+        ========================================= */
         body {
-            background: linear-gradient(135deg, #0f172a, #1e1b4b);
-            color: #ffffff;
-            min-height: 100vh;
-            padding: 20px;
-            padding-bottom: 80px;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
-        .container {
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(12px);
-            padding: 15px 25px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        h1 {
-            font-size: 20px;
-            color: #38bdf8;
-        }
-        .back-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: 0.3s;
-        }
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        .content-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-        }
-        .content-card h2 {
-            font-size: 22px;
-            color: #f8fafc;
-            margin-bottom: 15px;
-        }
-        .content-card p {
-            color: #94a3b8;
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 15px;
+        img {
+            -webkit-user-drag: none;
+            pointer-events: none;
         }
 
-        /* Mobile Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
+        /* =========================================
+           DESIGN & ANIMATION CSS
+        ========================================= */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        .about-section {
+            padding: 50px 20px 100px 20px;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Animated Background Glow */
+        .bg-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            filter: blur(100px);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: moveGlow 10s infinite alternate;
+            z-index: 0;
+        }
+        @keyframes moveGlow {
+            0% { top: 10%; left: 10%; transform: scale(1); }
+            100% { top: 50%; left: 70%; transform: scale(1.5); }
+        }
+
+        /* Back to Dashboard Button */
+        .top-bar {
             width: 100%;
-            height: 60px;
-            background: #1e1b4b;
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 40px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #e2e8f0;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
             backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-        .nav-item {
+
+        .back-btn i { font-size: 1.1rem; transition: transform 0.3s ease; }
+        .back-btn:hover {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: #fff;
+            border-color: transparent;
+            transform: translateX(-5px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+        }
+        .back-btn:hover i { transform: translateX(-5px); }
+
+        /* Header & Logo */
+        .about-header {
             text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .brand-logo {
+            max-width: 280px;
+            height: auto;
+            margin-bottom: 25px;
+            filter: drop-shadow(0px 0px 20px rgba(59, 130, 246, 0.5));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* Animated Gradient Text */
+        .section-title {
+            font-size: 3rem; /* Default Desktop Size */
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .animated-text {
+            background: linear-gradient(270deg, #00c6ff, #0072ff, #ff007f, #7928ca);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text; 
+            -webkit-text-fill-color: transparent;
+            animation: gradientText 5s ease infinite;
+            display: inline-block;
+        }
+
+        @keyframes gradientText {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem; /* Default Desktop Size */
             color: #94a3b8;
-            font-size: 18px;
-            cursor: pointer;
+            max-width: 750px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Grid Layout */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+            perspective: 1000px;
+        }
+
+        /* 3D Tilt Cards */
+        .feature-card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .feature-card .icon-box, 
+        .feature-card h3, 
+        .feature-card p {
+            transform: translateZ(30px);
+        }
+
+        .icon-box {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: #fff;
+            border-radius: 20px;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            transition: 0.3s;
+            font-size: 2rem;
+            margin: 0 auto 25px auto;
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
         }
-        .nav-item span {
-            margin-top: 2px;
-            font-size: 10px;
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #fff;
         }
-        .nav-item.active, .nav-item:hover {
-            color: #38bdf8;
+
+        .feature-card p {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        /* Social Media Section */
+        .social-connect {
+            text-align: center;
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transition: 0.4s;
+        }
+
+        .social-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: rgba(255,255,255,0.2);
+            transition: 0.4s;
+            z-index: -1;
+        }
+
+        .social-btn:hover::before { left: 0; }
+        .social-btn:hover { transform: translateY(-5px); }
+        .social-btn.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+        .social-btn.facebook { background: #1877F2; }
+
+        /* =========================================
+           MOBILE RESPONSIVE ADJUSTMENTS (ফোনের জন্য)
+        ========================================= */
+        @media (max-width: 768px) {
+            .about-section {
+                padding: 30px 15px 80px 15px; /* ফোনের জন্য প্যাডিং কমানো হলো */
+            }
+            .top-bar {
+                margin-bottom: 25px;
+            }
+            .back-btn {
+                padding: 10px 20px;
+                font-size: 0.85rem; /* বাটন ছোট করা হলো */
+            }
+            .brand-logo {
+                max-width: 200px; /* লোগো ছোট করা হলো */
+                margin-bottom: 20px;
+            }
+            .section-title {
+                font-size: 2.2rem; /* মেইন টাইটেল ছোট করা হলো */
+            }
+            .section-subtitle {
+                font-size: 0.95rem; /* সাব-টাইটেল ছোট করা হলো */
+                padding: 0 10px;
+            }
+            .features-grid {
+                grid-template-columns: 1fr; /* ফোনে কার্ডগুলো একটার নিচে একটা আসবে */
+                gap: 25px;
+            }
+            .feature-card {
+                padding: 30px 20px; /* কার্ডের ভেতরের স্পেস কমানো হলো */
+            }
+            .feature-card h3 {
+                font-size: 1.2rem; /* কার্ডের টাইটেল ছোট করা হলো */
+            }
+            .feature-card p {
+                font-size: 0.9rem; /* কার্ডের লেখা ছোট করা হলো */
+            }
+            .icon-box {
+                width: 65px;
+                height: 65px;
+                font-size: 1.6rem;
+            }
+            .social-connect {
+                padding: 30px 20px;
+            }
+            .social-connect h3 {
+                font-size: 1.5rem !important;
+            }
+            .social-connect p {
+                font-size: 0.9rem;
+            }
+            .social-btn {
+                padding: 10px 25px;
+                font-size: 0.9rem;
+                width: 100%; /* ফোনে সোশ্যাল বাটনগুলো পুরো স্ক্রিন জুড়ে সুন্দর দেখাবে */
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>ℹ️ About Us</h1>
-            <button class="back-btn" onclick="window.location.href='dashboard.html'">Dashboard</button>
-        </header>
+    <div class="bg-glow"></div>
 
-        <div class="content-card">
-            <h2>Welcome to ED Tech</h2>
-            <p>We are dedicated to providing high-quality study materials, semester notes, and custom web development solutions tailored especially for computer science and computer applications students.</p>
-            <p>Our goal is to make learning simpler, smarter, and more accessible while empowering students with practical tech resources and project assets.</p>
+    <section id="about-edtech" class="about-section">
+        <div class="container">
+            
+            <!-- ====== BACK TO DASHBOARD BUTTON ====== -->
+            <div class="top-bar">
+                <!-- Replace 'dashboard.html' with your actual dashboard link -->
+                <a href="dashboard.html" class="back-btn">
+                    <i class="fa-solid fa-arrow-left-long"></i> Back to Dashboard
+                </a>
+            </div>
+
+            <!-- Header Section -->
+            <div class="about-header">
+                <img src="logo1.png" alt="ED Tech Logo" class="brand-logo">
+                <h2 class="section-title">Welcome to <span class="animated-text">ED Tech</span></h2>
+                <p class="section-subtitle">
+                    Empowering MAKAUT BCA 1st-Year students with premium digital resources, practical coding tools, and personalized academic support.
+                </p>
+            </div>
+
+            <!-- Features Grid Section -->
+            <div class="features-grid">
+                
+                <div class="feature-card tilt-effect">
+                    <div class="icon-box"><i class="fa-solid fa-book-open"></i></div>
+                    <h3>Premium Study Materials</h3>
+                    <p>Hybrid notes (Handwritten & Digital) for Mathematics, and 100% premium digital notes for C Programming, Computer Architecture, IKS, and EVS.</p>
+                </div>
+
+                <div class="feature-card tilt-effect">
+                    <div class="icon-box"><i class="fa-solid fa-laptop-code"></i></div>
+                    <h3>Free Live Coding</h3>
+                    <p>Practice as you learn! Access our free built-in editor to run C, HTML, CSS, and JavaScript programs instantly without software installation.</p>
+                </div>
+
+                <div class="feature-card tilt-effect">
+                    <div class="icon-box"><i class="fa-solid fa-pen-ruler"></i></div>
+                    <h3>Assignments & Custom Notes</h3>
+                    <p>Need extra help? We provide professional assignment-making services and accept custom requests for any extra study materials.</p>
+                </div>
+            </div>
+
+            <!-- Social Media -->
+            <div class="social-connect tilt-effect">
+                <h3 style="font-size: 1.8rem; margin-bottom: 10px;">Join Our Community</h3>
+                <p style="color: #94a3b8;">Stay updated with the latest notes, coding tips, and resources.</p>
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/educraft_projects_official?igsh=NzUzcnZrZXB5ZjVh" class="social-btn instagram"><i class="fa-brands fa-instagram"></i> Instagram</a>
+                    <a href="https://www.facebook.com/share/1JgHEvfthp/" class="social-btn facebook"><i class="fa-brands fa-facebook-f"></i> Facebook</a>
+                </div>
+            </div>
+
         </div>
-    </div>
+    </section>
 
-    <!-- Mobile Bottom Navigation -->
-    <div class="bottom-nav">
-        <div class="nav-item" onclick="window.location.href='dashboard.html'">🏠<span>Home</span></div>
-        <div class="nav-item" onclick="window.location.href='courses.html'">📚<span>Courses</span></div>
-        <div class="nav-item" onclick="window.location.href='tasks1.html'">📝<span>Updates</span></div>
-        <div class="nav-item" onclick="window.location.href='profile.html'">👤<span>Profile</span></div>
-    </div>
-
+    <!-- =========================================
+         JAVASCRIPT FOR INTERACTIVITY & SECURITY
+    ========================================= -->
     <script>
-    // ১. মাউসের রাইট ক্লিক ডিজাবেল করা
-    document.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
-        alert('Right click is disabled to protect content privacy!');
-    });
+        // 1. 3D TILT EFFECT FOR CARDS (Disabled on touch devices for better mobile scroll)
+        const tiltElements = document.querySelectorAll('.tilt-effect');
 
-    // ২. কিবোর্ড শর্টকাট (Ctrl+C, Ctrl+U, Print Screen ইত্যাদি) ব্লক করা
-    document.addEventListener('keydown', function(e) {
-        // Ctrl+C (Copy), Ctrl+U (View Source), Ctrl+S (Save), F12 (Inspect) ব্লক করা
-        if (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'p')) {
-            e.preventDefault();
-            alert('Copying content is strictly prohibited!');
-        }
-        // Print Screen বা স্ক্রিনশট কি ব্লক করা
-        if (e.key === 'PrintScreen') {
-            e.preventDefault();
-            navigator.clipboard.writeText(''); // ক্লিপবোর্ড ক্লিয়ার করে দেওয়া
-            alert('Screenshots are not allowed on this platform!');
-        }
-    });
+        // Check if device is touch screen
+        const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
-    // ৩. টেক্সট সিলেক্ট করা বা ড্র্যাগ করা বন্ধ করা
-    document.addEventListener('selectstart', function(e) {
-        e.preventDefault();
-    });
-</script>
+        if (!isTouchDevice) {
+            tiltElements.forEach(el => {
+                el.addEventListener('mousemove', e => {
+                    const rect = el.getBoundingClientRect();
+                    const x = e.clientX - rect.left; 
+                    const y = e.clientY - rect.top;  
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = ((y - centerY) / centerY) * -15; 
+                    const rotateY = ((x - centerX) / centerX) * 15;
+                    
+                    el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                });
+
+                el.addEventListener('mouseleave', () => {
+                    el.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                    el.style.transition = "transform 0.5s ease"; 
+                });
+
+                el.addEventListener('mouseenter', () => {
+                    el.style.transition = "none";
+                });
+            });
+        }
+
+        // 2. STRICT SECURITY SCRIPTS
+        document.addEventListener('contextmenu', event => {
+            event.preventDefault();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if(e.key === 'F12' || e.keyCode === 123) { e.preventDefault(); return false; }
+            if((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.keyCode === 73)) { e.preventDefault(); return false; }
+            if((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'J' || e.keyCode === 74)) { e.preventDefault(); return false; }
+            if((e.ctrlKey || e.metaKey) && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) { e.preventDefault(); return false; }
+            if((e.ctrlKey || e.metaKey) && (e.key === 'C' || e.key === 'c' || e.keyCode === 67 || 
+                                          e.key === 'V' || e.key === 'v' || e.keyCode === 86 || 
+                                          e.key === 'X' || e.key === 'x' || e.keyCode === 88)) { e.preventDefault(); return false; }
+        });
+
+        document.addEventListener('copy', e => { e.preventDefault(); });
+        document.addEventListener('cut', e => { e.preventDefault(); });
+        document.addEventListener('paste', e => { e.preventDefault(); });
+        document.addEventListener('dragstart', e => { e.preventDefault(); });
+    </script>
 </body>
 </html>
