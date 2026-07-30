@@ -35,8 +35,47 @@
         
         .chapter-list { list-style: none; padding-left: 15px; margin-top: 5px; display: none; }
         .chapter-list.open { display: block; }
-        .chapter-list li { padding: 8px 12px; margin: 3px 0; border-radius: 6px; cursor: pointer; font-size: 13px; color: #94a3b8; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
-        .chapter-list li:hover { background: rgba(56, 189, 248, 0.1); color: #38bdf8; }
+        
+        /* 🚀 আপডেট করা চ্যাপ্টার লিস্ট ও বাটন ডিজাইন */
+        .chapter-list li { 
+            padding: 10px; 
+            margin: 6px 0; 
+            border-radius: 8px; 
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex; 
+            flex-direction: column;
+            gap: 8px; 
+        }
+        .chapter-list li:hover { background: rgba(255, 255, 255, 0.05); border-color: rgba(56, 189, 248, 0.2); }
+        .chapter-title-text { font-size: 13px; color: #e2e8f0; font-weight: 500; }
+        
+        .btn-group { display: flex; gap: 6px; width: 100%; }
+        
+        .media-btn { 
+            flex: 1; 
+            background: rgba(56, 189, 248, 0.1); 
+            border: 1px solid rgba(56, 189, 248, 0.3); 
+            color: #38bdf8; 
+            padding: 6px 4px; 
+            border-radius: 6px; 
+            font-size: 11px; 
+            font-weight: 600;
+            cursor: pointer; 
+            transition: 0.3s; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 4px; 
+        }
+        .media-btn:hover { background: #38bdf8; color: #0f172a; }
+        
+        .pdf-btn { 
+            background: rgba(74, 222, 128, 0.1); 
+            border-color: rgba(74, 222, 128, 0.3); 
+            color: #4ade80; 
+        }
+        .pdf-btn:hover { background: #4ade80; color: #0f172a; }
 
         /* পার্সোনাল নোটস বক্স */
         .notes-section { margin-top: 25px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 12px; }
@@ -95,12 +134,12 @@
 
     <div class="main-content">
         <header>
-            <h1 id="contentTitle" style="font-size: 18px; color: #38bdf8;">Select a video from the menu</h1>
+            <h1 id="contentTitle" style="font-size: 18px; color: #38bdf8;">Select a topic from the menu</h1>
             <button class="back-btn" onclick="window.location.href='dashboard.html'">🏠 Dashboard</button>
         </header>
 
         <div class="content-card" id="displayArea">
-            <p id="placeholderText" style="color: #94a3b8; text-align: center;">Please select a video lecture from the left menu to start watching.</p>
+            <p id="placeholderText" style="color: #94a3b8; text-align: center;">Please select a Video or PDF from the left menu to start learning.</p>
             
             <div class="video-container" id="videoContainer">
             </div>
@@ -151,7 +190,7 @@
             try {
                 const querySnapshot = await getDocs(collection(db, "videoCourses"));
                 if (querySnapshot.empty) {
-                    menuContainer.innerHTML = `<p style="color: #94a3b8; font-size: 12px; text-align: center; margin-top: 20px;">No videos available yet.</p>`;
+                    menuContainer.innerHTML = `<p style="color: #94a3b8; font-size: 12px; text-align: center; margin-top: 20px;">No content available yet.</p>`;
                     return;
                 }
 
@@ -169,7 +208,26 @@
                         `;
                         
                         data.videos.forEach((vid) => {
-                            htmlContent += `<li onclick="loadVideo('${vid.title}', '${vid.videoUrl}')">▶️ ${vid.title}</li>`;
+                            let buttonsHTML = "";
+                            
+                            // 🚀 ডাইনামিক বাটন লজিক (ভিডিও ও পিডিএফ চেক করে)
+                            if (vid.videoUrl) {
+                                buttonsHTML += `<button class="media-btn" onclick="loadMedia('${vid.title} (Video)', '${vid.videoUrl}')">🎬 Play Video</button>`;
+                            }
+                            if (vid.pdfUrl) {
+                                buttonsHTML += `<button class="media-btn pdf-btn" onclick="loadMedia('${vid.title} (Notes)', '${vid.pdfUrl}')">📑 Read PDF</button>`;
+                            }
+
+                            // বাটন না থাকলে কিছুই দেখাবে না
+                            if(buttonsHTML !== "") {
+                                htmlContent += `
+                                <li>
+                                    <span class="chapter-title-text">📌 ${vid.title}</span>
+                                    <div class="btn-group">
+                                        ${buttonsHTML}
+                                    </div>
+                                </li>`;
+                            }
                         });
 
                         htmlContent += `</ul></div>`;
@@ -178,8 +236,8 @@
 
                 menuContainer.innerHTML = htmlContent;
             } catch (error) {
-                console.error("Error fetching videos:", error);
-                menuContainer.innerHTML = `<p style="color: #f87171; font-size: 12px; text-align: center;">Failed to load videos.</p>`;
+                console.error("Error fetching content:", error);
+                menuContainer.innerHTML = `<p style="color: #f87171; font-size: 12px; text-align: center;">Failed to load content.</p>`;
             }
         }
 
@@ -188,7 +246,7 @@
             const noteText = document.getElementById('userVideoNote').value;
             try {
                 await setDoc(doc(db, "users", currentUser.uid), { videoNote: noteText }, { merge: true });
-                alert("Video note saved successfully!");
+                alert("Notes saved successfully!");
             } catch (error) {
                 alert("Failed to save note.");
             }
@@ -217,12 +275,12 @@
             document.getElementById('sidebar').classList.toggle('active');
         }
 
-        // 🔒 আপডেট করা loadVideo ফাংশন (Smart Shield with proper sizes)
-        function loadVideo(title, videoUrl) {
+        // 🚀 loadMedia ফাংশন (ভিডিও এবং পিডিএফ দুটোই হ্যান্ডেল করবে)
+        function loadMedia(title, mediaUrl) {
             document.getElementById('contentTitle').innerText = title;
             document.getElementById('placeholderText').style.display = 'none';
             
-            let finalUrl = videoUrl;
+            let finalUrl = mediaUrl;
             let shieldHTML = '';
 
             // 🎥 ইউটিউব ভিডিও চেক
@@ -235,7 +293,6 @@
                     finalUrl = finalUrl.split('?')[0];
                 }
                 
-                // ইউটিউবের জন্য শেয়ার ও লোগো ব্লকার (সেটিংস ও ফুলস্ক্রিন ফাঁকা থাকবে)
                 shieldHTML = `
                     <div class="top-bar-shield" onclick="alert('Copying or sharing is strictly prohibited!');"></div>
                     <div class="logo-shield" onclick="alert('Action blocked to protect video content!');"></div>
@@ -248,7 +305,6 @@
                     finalUrl = finalUrl.replace(/\/view.*$/, '/preview');
                 }
                 
-                // পিডিএফের জন্য পপ-আউট ব্লকার
                 shieldHTML = `
                     <div class="pdf-popout-shield" onclick="alert('Downloading or popping out PDF is strictly prohibited!');"></div>
                 `;
@@ -257,7 +313,6 @@
             const videoContainer = document.getElementById('videoContainer');
             videoContainer.style.display = 'block';
             
-            // আইফ্রেম এবং ডাইনামিক শিল্ড বসানো
             videoContainer.innerHTML = `
                 ${shieldHTML}
                 <iframe src="${finalUrl}#toolbar=0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
