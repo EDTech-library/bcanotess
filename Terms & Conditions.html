@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions - Payment</title>
+    <style>
+        /* আপনার ওয়েবসাইটের বর্তমান ডার্ক থিমের সাথে মেলানো CSS */
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            
+            /* টেক্সট সিলেক্ট এবং কপি করা বন্ধ করার কোড */
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* Standard */
+        }
+
+        /* Top Header Bar */
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #161b22;
+            padding: 15px 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            border: 1px solid #30363d;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .header-title {
+            margin: 0;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dashboard-btn {
+            background-color: #374151;
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            transition: 0.3s;
+        }
+        .dashboard-btn:hover {
+            background-color: #4b5563;
+        }
+
+        /* Content Container */
+        .content-card {
+            background-color: #161b22;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            border: 1px solid #30363d;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Headings matching your blue style */
+        h3 {
+            color: #38bdf8;
+            font-size: 18px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        h3:first-child {
+            margin-top: 0;
+        }
+
+        /* Text and Lists */
+        p {
+            color: #8b949e;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+        .terms-list {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        .terms-list li {
+            color: #8b949e;
+            font-size: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        /* Red Alert Box */
+        .alert-box {
+            background-color: rgba(153, 27, 27, 0.15);
+            border: 1px solid rgba(248, 113, 113, 0.4);
+            color: #fca5a5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 25px;
+            font-size: 14px;
+            text-align: center;
+        }
+        .alert-box strong {
+            color: #f87171;
+        }
+
+        /* =========================================
+           Media Queries (ফোনের জন্য রেস্পন্সিভ ডিজাইন)
+           ========================================= */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+            .header-bar {
+                padding: 12px 15px;
+            }
+            .header-title {
+                font-size: 16px;
+            }
+            .dashboard-btn {
+                padding: 7px 12px;
+                font-size: 13px;
+            }
+            .content-card {
+                padding: 20px 15px;
+            }
+            h3 {
+                font-size: 16px;
+            }
+            p, .terms-list li {
+                font-size: 14px;
+            }
+            .alert-box {
+                font-size: 13px;
+                padding: 12px;
+            }
+        }
+
+        /* =========================================
+           Print Protection (প্রিন্ট করা বন্ধ করার কোড)
+           ========================================= */
+        @media print {
+            body {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<!-- JavaScript দিয়ে রাইট-ক্লিক, কপি এবং পেস্ট বন্ধ করা হয়েছে -->
+<body oncontextmenu="return false;" oncopy="return false;" oncut="return false;" onpaste="return false;">
+
+    <!-- Top Header with Dashboard Button -->
+    <div class="header-bar">
+        <div class="header-title">📄 Terms & Conditions</div>
+        <!-- এখানে href="#" এর জায়গায় আপনার আসল ড্যাশবোর্ডের লিংক দেবেন -->
+        <a href="#" class="dashboard-btn">Dashboard</a>
+    </div>
+
+    <!-- Main Content Box -->
+    <div class="content-card">
+        
+        <h3>💳 1. General Payment Terms</h3>
+        <p>All transactions on this platform are completely secure and processed through authorized payment gateways (Razorpay). By purchasing any digital asset or course, you agree to our strict billing terms.</p>
+        
+        <h3>🚫 2. Strict Cancellation & No-Refund Policy</h3>
+        <p>Because our platform provides non-tangible, irrevocable digital goods (premium notes, video lectures, and e-learning resources), <strong>we maintain a strict "No Refund" policy.</strong></p>
+        <ul class="terms-list">
+            <li>⚠️ <strong>No Cancellations:</strong> Once a payment is successful and access to the course is granted, the order cannot be canceled.</li>
+            <li>⚠️ <strong>No Refunds:</strong> Fees once paid are 100% non-refundable under any circumstances. We do not offer money-back guarantees for any digital content.</li>
+            <li>⚠️ <strong>Platform Access:</strong> Your payment is for accessing the content on our platform for a specific duration, not for downloading or owning the copyright.</li>
+        </ul>
+
+        <h3>⚖️ 3. Payment Disputes & Chargebacks</h3>
+        <p>If you face any technical issues accessing your purchased content, you must contact our Support team immediately. However, raising false disputes or chargebacks will not be tolerated.</p>
+
+        <!-- Red Warning Box -->
+        <div class="alert-box">
+            ⚠️ <strong>Warning:</strong> Initiating a fraudulent chargeback, payment dispute, or unauthorized payment reversal will result in immediate and permanent termination of your account, and may lead to legal action to recover platform dues.
+        </div>
+
+    </div>
+
+    <!-- কিবোর্ড শর্টকাট (Ctrl+C, Ctrl+P, F12) ব্লক করার জন্য অতিরিক্ত স্ক্রিপ্ট -->
+    <script>
+        document.onkeydown = function(e) {
+            // F12 (Inspect Element) বন্ধ করা
+            if(event.keyCode == 123) {
+                return false;
+            }
+            // Ctrl+C (Copy), Ctrl+V (Paste), Ctrl+U (View Source), Ctrl+P (Print) বন্ধ করা
+            if(e.ctrlKey && (e.keyCode === 67 || e.keyCode === 86 || e.keyCode === 85 || e.keyCode === 80 || e.keyCode === 117)) {
+                return false;
+            }
+        };
+    </script>
+
+</body>
+</html>
