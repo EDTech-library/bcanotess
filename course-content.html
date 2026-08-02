@@ -152,7 +152,7 @@
             background: #0ea5e9;
         }
 
-        /* মেইন কন্টেন্ট এরিয়া - ডেস্কটপে পুরো জায়গা নেওয়ার জন্য */
+        /* মেইন কন্টেন্ট এরিয়া - ডেস্কটপে পুরো জায়গা নেওয়ার জন্য */
         .main-content {
             margin-left: 280px;
             flex: 1;
@@ -212,7 +212,7 @@
             border: none;
         }
 
-        /* সিকিউরিটি ওয়াটারমার্ক - অপাসিটি বাড়িয়ে দৃশ্যমান করা হলো */
+        /* সিকিউরিটি ওয়াটারমার্ক - অপাসিটি বাড়িয়ে দৃশ্যমান করা হলো */
       .watermark-overlay {
             position: fixed;
             top: 0;
@@ -228,7 +228,7 @@
         }
         .watermark-text {
             position: absolute;
-            color: rgba(250, 204, 21, 0.22); /* ইয়েলো হাইলাইটার কালার ও স্পষ্ট দৃশ্যমানতা */
+            color: rgba(250, 204, 21, 0.22); /* ইয়েলো হাইলাইটার কালার ও স্পষ্ট দৃশ্যমানতা */
             font-size: 24px;
             font-weight: 700;
             transform: rotate(-30deg);
@@ -291,7 +291,7 @@ iframe {
         </div>
     </div>
 
-    <!-- মেইন কন্টেন্ট এরিয়া -->
+    <!-- মেইন কন্টেন্ট এরিয়া -->
     <div class="main-content">
         <header>
             <h1 id="contentTitle" style="font-size: 18px; color: #38bdf8;">Select a topic from the menu</h1>
@@ -303,11 +303,12 @@ iframe {
         </div>
     </div>
 
-    <!-- ফায়ারবেস ডেটাবেজ ও ডাইনামিক রেন্ডারিং স্ক্রিপ্ট -->
+    <!-- ফায়ারবেস ডেটাবেজ ও ডাইনামিক রেন্ডারিং স্ক্রিপ্ট -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        // এখানে query এবং orderBy ইম্পোর্ট করা হলো
+        import { getFirestore, doc, getDoc, setDoc, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDDy7xLO6WhCXFt8bPAU9AYFYtVoVw8t9k",
@@ -346,7 +347,9 @@ iframe {
             menuContainer.innerHTML = "";
 
             try {
-                const querySnapshot = await getDocs(collection(db, "courses"));
+                // এখানে orderBy ফাংশন অ্যাড করা হলো (serialNumber এর উপর ভিত্তি করে)
+                const coursesQuery = query(collection(db, "courses"), orderBy("serialNumber"));
+                const querySnapshot = await getDocs(coursesQuery);
                 
                 if (querySnapshot.empty) {
                     menuContainer.innerHTML = `<p style="color: #94a3b8; font-size: 12px; text-align: center; margin-top: 20px;">No courses available yet.</p>`;
@@ -464,11 +467,6 @@ iframe {
         });
 
         
-
-
-
-
-
 
         function loadContent(title, pdfUrl) {
             document.getElementById('contentTitle').innerText = title;
