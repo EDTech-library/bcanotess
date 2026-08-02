@@ -263,11 +263,10 @@
             }
         });
 
-        // Razorpay Payment Function
+   // Razorpay Payment Function (Crash Fixed)
         function initiatePayment(amount, courseType, daysValid, buttonElement) {
             if (!currentUser) return alert("Please login first!");
 
-            // Test Key
             const options = {
                 "key": "rzp_live_TKwcEpODlcIfBC", 
                 "amount": amount * 100, // পয়সায় হিসেব 
@@ -276,26 +275,34 @@
                 "description": courseType + " Subscription",
                 "image": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
                 "handler": async function (response) {
-                    let expiryDate;
-                    const updateData = {};
-                    
-                    if (courseType === 'Monthly') {
-                        // Monthly: বর্তমান সময় থেকে ঠিক ৩০ দিন (30 days) পর শেষ হবে
-                        expiryDate = new Date().getTime() + (30 * 24 * 60 * 60 * 1000); 
-                        updateData.monthlyExpiry = expiryDate;
-                    } 
-                    else if (courseType === 'FullCourse') {
-                        // ⚠️ টেস্টিংয়ের জন্য এখন ৫ মিনিট (5 mins) দেওয়া আছে। টেস্ট হয়ে গেলে এটা পাল্টে আসল ডেট দেবে! ⚠️
-                        // আসল ডেট দেওয়ার নিয়ম: expiryDate = new Date("2026-11-30T23:59:59").getTime();
-                        expiryDate = new Date("2027-02-15T23:59:59").getTime(); 
-                        updateData.fullCourseExpiry = expiryDate;
-                    }
+                    try {
+                        let expiryDate;
+                        const updateData = {};
+                        
+                        if (courseType === 'Monthly') {
+                            // Monthly: বর্তমান সময় থেকে ঠিক ৩০ দিন (30 days) পর শেষ হবে
+                            expiryDate = new Date().getTime() + (30 * 24 * 60 * 60 * 1000); 
+                            updateData.monthlyExpiry = expiryDate;
+                        } 
+                        else if (courseType === 'FullCourse') {
+                            // ⚠️ টেস্টিংয়ের জন্য ডেট
+                            expiryDate = new Date("2027-02-15T23:59:59").getTime(); 
+                            updateData.fullCourseExpiry = expiryDate;
+                        }
 
-                    // ফায়ারবেসে ইউজারের ডেটা আপডেট করা
-                    await setDoc(doc(db, "users", currentUser.uid), updateData, { merge: true });
-                    
-                    alert("Payment Successful! Course Unlocked.");
-                    checkSubscriptionStatus(currentUser); // বাটন অটো আপডেট হবে
+                        // ফায়ারবেসে ইউজারের ডেটা আপডেট করা
+                        await setDoc(doc(db, "users", currentUser.uid), updateData, { merge: true });
+                        
+                        // 🚀 ব্রাউজার ক্র্যাশ এড়াতে গ্যাপ দিয়ে অ্যালার্ট এবং পেজ রিলোড 🚀
+                        setTimeout(() => {
+                            alert("Payment Successful! Course Unlocked.");
+                            window.location.reload(); // পেজটা ফ্রেশ করে রিলোড হবে এবং বাটন আপডেট হয়ে যাবে
+                        }, 500);
+
+                    } catch (error) {
+                        console.error("Firebase Update Error:", error);
+                        alert("Payment successful, but system update delayed. Please refresh the page.");
+                    }
                 },
                 "prefill": {
                     "name": currentUser.displayName,
@@ -309,7 +316,6 @@
             const rzp1 = new Razorpay(options);
             rzp1.open();
         }
-
         // বাটনগুলোতে পেমেন্ট সিস্টেম যুক্ত করা
         document.getElementById('btn-monthly').addEventListener('click', function() {
             if(this.innerText === "Subscribe") {
