@@ -332,7 +332,7 @@
             }
         });
 
-       // Razorpay Payment Function (Crash Fixed for Courses Page)
+      // Razorpay Payment Function (Crash Fixed for Courses Page)
         function initiatePayment(amount, courseType, daysValid, buttonElement) {
             if (!currentUser) return alert("Please login first!");
 
@@ -385,7 +385,10 @@
             
             const rzp1 = new Razorpay(options);
             rzp1.open();
-        }        // বাটনগুলোতে ইভেন্ট লিসেনার যুক্ত করা
+        }  
+        
+        
+        // বাটনগুলোতে ইভেন্ট লিসেনার যুক্ত করা
         document.getElementById('btn-course-monthly').addEventListener('click', function() {
             if(this.innerText === "Subscribe") {
                 initiatePayment(50, 'Monthly', 30, this);
