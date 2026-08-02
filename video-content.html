@@ -169,7 +169,8 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        // query এবং orderBy ইম্পোর্ট করা হলো
+        import { getFirestore, doc, getDoc, setDoc, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDDy7xLO6WhCXFt8bPAU9AYFYtVoVw8t9k",
@@ -208,7 +209,10 @@
             menuContainer.innerHTML = "";
 
             try {
-                const querySnapshot = await getDocs(collection(db, "videoCourses"));
+                // orderBy যোগ করা হলো
+                const videoCoursesQuery = query(collection(db, "videoCourses"), orderBy("serialNumber"));
+                const querySnapshot = await getDocs(videoCoursesQuery);
+                
                 if (querySnapshot.empty) {
                     menuContainer.innerHTML = `<p style="color: #94a3b8; font-size: 12px; text-align: center; margin-top: 20px;">No content available yet.</p>`;
                     return;
@@ -303,7 +307,7 @@
             
             const videoContainer = document.getElementById('videoContainer');
             
-            // নতুন কিছু লোড হওয়ার আগে আগের সাইজগুলো মুছে দেওয়া হলো
+            // নতুন কিছু লোড হওয়ার আগে আগের সাইজগুলো মুছে দেওয়া হলো
             videoContainer.classList.remove('mode-video', 'mode-pdf');
 
             // 🎥 ইউটিউব ভিডিও চেক
@@ -346,7 +350,7 @@
                 <iframe src="${finalUrl}#toolbar=0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
             `;
 
-            // মোবাইলে ক্লিক করার পর সাইডবার নিজে থেকে বন্ধ হয়ে যাবে
+            // মোবাইলে ক্লিক করার পর সাইডবার নিজে থেকে বন্ধ হয়ে যাবে
             if(window.innerWidth <= 768) {
                 document.getElementById('sidebar').classList.remove('active');
             }
