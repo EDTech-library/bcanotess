@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- এই লাইনটি যোগ করো -->
     <link rel="icon" type="image/png" href="icon.png">
-<!-- Social Media & WhatsApp Preview Tags -->
-<meta property="og:title" content="ED Tech - Login">
-<meta property="og:description" content="Welcome to ED Tech, powered by EduCraft. Login to access your notes.">
-<meta property="og:image" content="https://edtech-library.github.io/bcanotess/logo1.png">
-<meta property="og:url" content="https://edtech-library.github.io/bcanotess/index.html">
-<meta property="og:type" content="website">
-
+    <!-- Social Media & WhatsApp Preview Tags -->
+    <meta property="og:title" content="ED Tech - Login">
+    <meta property="og:description" content="Welcome to ED Tech, powered by EduCraft. Login to access your notes.">
+    <meta property="og:image" content="https://edtech-library.github.io/bcanotess/logo1.png">
+    <meta property="og:url" content="https://edtech-library.github.io/bcanotess/index.html">
+    <meta property="og:type" content="website">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,7 +28,7 @@
             </div>
 
             <div class="login-content">
-                <p class="welcome-text">Welcome back! Please login to access your notes.</p>
+                <p class="welcome-text">Welcome back! Please login to access your courses.</p>
                 
                 <!-- Google Login Button -->
                 <button id="googleLoginBtn" class="btn google-btn">
@@ -42,24 +40,13 @@
                     <span>OR</span>
                 </div>
 
-             <!-- Phone OTP Login -->
-                <div class="phone-login-section">
-                    
-                    <!-- Phone Number Input & Send Button -->
-                    <div id="phoneInputContainer">
-                        <input type="tel" id="phoneNumber" class="input-field" placeholder="Enter Phone Number (+91...)">
-                        <!-- ফায়ারবেস reCAPTCHA এখানে দেখাবে -->
-                        <div id="recaptcha-container" style="margin: 15px 0;"></div>
-                        <button id="sendOtpBtn" class="btn otp-btn">Send OTP</button>
-                    </div>
-
-                    <!-- OTP Code Input & Verify Button (প্রথমে লুকানো থাকবে) -->
-                    <div id="otpInputContainer" style="display: none; margin-top: 10px;">
-                        <input type="text" id="otpCode" class="input-field" placeholder="Enter 6-digit OTP">
-                        <button id="verifyOtpBtn" class="btn otp-btn" style="margin-top: 10px; background-color: #28a745;">Verify Login</button>
-                    </div>
-
+                <!-- 🚀 Email & Password Login Section 🚀 -->
+                <div class="email-login-section">
+                    <input type="email" id="loginEmail" class="input-field" placeholder="Enter Email ID">
+                    <input type="password" id="loginPassword" class="input-field" placeholder="Enter Password">
+                    <button id="emailLoginBtn" class="btn otp-btn">Login</button>
                 </div>
+
             </div>
         </div>
     </div>
